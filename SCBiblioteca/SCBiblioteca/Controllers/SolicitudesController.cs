@@ -46,8 +46,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Solicitudes/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdSolicitud,FechaSolicitud,CantidadLibros,Activo,IdCliente,IdLibro,IdUsuario")] Solicitud solicitud)
@@ -84,8 +82,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Solicitudes/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdSolicitud,FechaSolicitud,CantidadLibros,Activo,IdCliente,IdLibro,IdUsuario")] Solicitud solicitud)

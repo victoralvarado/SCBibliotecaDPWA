@@ -42,8 +42,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Autores/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdAutor,Autor1")] Autor autor)
@@ -74,8 +72,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Autores/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdAutor,Autor1")] Autor autor)

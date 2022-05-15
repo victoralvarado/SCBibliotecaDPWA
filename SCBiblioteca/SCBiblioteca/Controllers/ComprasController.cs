@@ -45,8 +45,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Compras/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdCompra,Correlativo,Cantidad,Subtotal,TotalCompra,FechaCompra,IdLibro,IdEditorial")] Compra compra)
@@ -81,8 +79,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Compras/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdCompra,Correlativo,Cantidad,Subtotal,TotalCompra,FechaCompra,IdLibro,IdEditorial")] Compra compra)

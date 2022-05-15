@@ -44,8 +44,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Comprobantes/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdComprobante,Comprobante1,Activo,FechaCreacion,FechaVencimiento,IdUsuario")] Comprobante comprobante)
@@ -78,8 +76,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Comprobantes/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdComprobante,Comprobante1,Activo,FechaCreacion,FechaVencimiento,IdUsuario")] Comprobante comprobante)

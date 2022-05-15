@@ -42,8 +42,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Editoriales/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdEditorial,Editorial1,Direccion,Telefono")] Editorial editorial)
@@ -74,8 +72,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Editoriales/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdEditorial,Editorial1,Direccion,Telefono")] Editorial editorial)
