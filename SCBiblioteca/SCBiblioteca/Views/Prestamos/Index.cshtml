@@ -18,7 +18,10 @@
             @Html.DisplayNameFor(model => model.Activo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DetalleSolicitud.IdDetalleSolicitud)
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Solicitud.IdSolicitud)
         </th>
         <th></th>
     </tr>
@@ -32,7 +35,10 @@
             @Html.DisplayFor(modelItem => item.Activo)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DetalleSolicitud.IdDetalleSolicitud)
+            @Html.DisplayFor(modelItem => item.Cantidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Solicitud.IdSolicitud)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.IdPrestamo }) |

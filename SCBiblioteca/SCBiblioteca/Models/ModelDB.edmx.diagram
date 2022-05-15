@@ -4,47 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3cf086de48d64014ad7c919d32d3a2d7" Name="Diagram1" ZoomLevel="108">
-        <EntityTypeShape EntityType="SCBibliotecaModel.Autor" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Categoria" Width="1.5" PointX="6.125" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Cliente" Width="1.5" PointX="8.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Compra" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Comprobante" Width="1.5" PointX="11.125" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.DetalleCompra" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.DetalleSolicitud" Width="1.5" PointX="8.25" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Devolucion" Width="1.5" PointX="12.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Editorial" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Especialidad" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Libro" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Penalizacion" Width="1.5" PointX="10.5" PointY="0.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Prestamo" Width="1.5" PointX="10.5" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Rol" Width="1.5" PointX="6.5" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Solicitud" Width="1.5" PointX="11.125" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="SCBibliotecaModel.Usuario" Width="1.5" PointX="8.75" PointY="10.125" IsExpanded="true" />
+      <Diagram DiagramId="8f4eb8cf37be4692a05fd6796ca23bf1" Name="Diagram1">
+        <EntityTypeShape EntityType="SCBibliotecaModel.Autor" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Categoria" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Cliente" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Compra" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Comprobante" Width="1.5" PointX="8.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Devolucion" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Editorial" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Especialidad" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Libro" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Penalizacion" Width="1.5" PointX="15" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Prestamo" Width="1.5" PointX="10.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Rol" Width="1.5" PointX="3.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Solicitud" Width="1.5" PointX="8.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SCBibliotecaModel.Usuario" Width="1.5" PointX="6" PointY="8.875" IsExpanded="true" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Libro_Autor" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Libro_Categoria" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Solicitud_Cliente" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Compra_Editorial" ManuallyRouted="false" />
-        <AssociationConnector Association="SCBibliotecaModel.FK_DetalleCompra_Compra" ManuallyRouted="false" />
+        <AssociationConnector Association="SCBibliotecaModel.FK_Compra_Libro" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Comprobante_Usuario" ManuallyRouted="false" />
-        <AssociationConnector Association="SCBibliotecaModel.FK_DetalleCompra_Libro" ManuallyRouted="false" />
-        <AssociationConnector Association="SCBibliotecaModel.FK_DetalleSolicitud_Libro" ManuallyRouted="true" >
-          <ConnectorPoint PointX="4.5" PointY="3.1664272535190778" />
-          <ConnectorPoint PointX="5.874922640850599" PointY="3.1664272535190778" />
-          <ConnectorPoint PointX="5.874922640850599" PointY="3.1820629066179729" />
-          <ConnectorPoint PointX="8.6664322450018147" PointY="3.1820629066179729" />
-          <ConnectorPoint PointX="8.6664322450018147" PointY="3.5" />
-        </AssociationConnector>
-        <AssociationConnector Association="SCBibliotecaModel.FK_DetalleSolicitud_Solicitud" ManuallyRouted="true" >
-          <ConnectorPoint PointX="11.814139948191107" PointY="8" />
-          <ConnectorPoint PointX="11.814139948191107" PointY="6.2398893229166674" />
-          <ConnectorPoint PointX="9.1453694900036329" PointY="6.2398893229166674" />
-          <ConnectorPoint PointX="9.1453694900036329" PointY="5.8648893229166674" />
-        </AssociationConnector>
-        <AssociationConnector Association="SCBibliotecaModel.FK_Prestamo_DetalleSolicitud" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Devolucion_Prestamo" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Penalizacion_Devolucion" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Libro_Especialidad" ManuallyRouted="false" />
+        <AssociationConnector Association="SCBibliotecaModel.FK_Solicitud_Libro" ManuallyRouted="false" />
+        <AssociationConnector Association="SCBibliotecaModel.FK_Prestamo_Solicitud" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Usuario_Rol" ManuallyRouted="false" />
         <AssociationConnector Association="SCBibliotecaModel.FK_Solicitud_Usuario" ManuallyRouted="false" />
       </Diagram>

@@ -17,7 +17,7 @@ namespace SCBiblioteca.Controllers
         // GET: Prestamos
         public ActionResult Index()
         {
-            var prestamo = db.Prestamo.Include(p => p.DetalleSolicitud);
+            var prestamo = db.Prestamo.Include(p => p.Solicitud);
             return View(prestamo.ToList());
         }
 
@@ -39,7 +39,7 @@ namespace SCBiblioteca.Controllers
         // GET: Prestamos/Create
         public ActionResult Create()
         {
-            ViewBag.IdDetalleSolicitud = new SelectList(db.DetalleSolicitud, "IdDetalleSolicitud", "IdDetalleSolicitud");
+            ViewBag.IdSolicitud = new SelectList(db.Solicitud, "IdSolicitud", "IdSolicitud");
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace SCBiblioteca.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdPrestamo,FechaPrestamo,Activo,IdDetalleSolicitud")] Prestamo prestamo)
+        public ActionResult Create([Bind(Include = "IdPrestamo,FechaPrestamo,Activo,Cantidad,IdSolicitud")] Prestamo prestamo)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace SCBiblioteca.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdDetalleSolicitud = new SelectList(db.DetalleSolicitud, "IdDetalleSolicitud", "IdDetalleSolicitud", prestamo.IdDetalleSolicitud);
+            ViewBag.IdSolicitud = new SelectList(db.Solicitud, "IdSolicitud", "IdSolicitud", prestamo.IdSolicitud);
             return View(prestamo);
         }
 
@@ -73,7 +73,7 @@ namespace SCBiblioteca.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IdDetalleSolicitud = new SelectList(db.DetalleSolicitud, "IdDetalleSolicitud", "IdDetalleSolicitud", prestamo.IdDetalleSolicitud);
+            ViewBag.IdSolicitud = new SelectList(db.Solicitud, "IdSolicitud", "IdSolicitud", prestamo.IdSolicitud);
             return View(prestamo);
         }
 
@@ -82,7 +82,7 @@ namespace SCBiblioteca.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdPrestamo,FechaPrestamo,Activo,IdDetalleSolicitud")] Prestamo prestamo)
+        public ActionResult Edit([Bind(Include = "IdPrestamo,FechaPrestamo,Activo,Cantidad,IdSolicitud")] Prestamo prestamo)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace SCBiblioteca.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdDetalleSolicitud = new SelectList(db.DetalleSolicitud, "IdDetalleSolicitud", "IdDetalleSolicitud", prestamo.IdDetalleSolicitud);
+            ViewBag.IdSolicitud = new SelectList(db.Solicitud, "IdSolicitud", "IdSolicitud", prestamo.IdSolicitud);
             return View(prestamo);
         }
 
