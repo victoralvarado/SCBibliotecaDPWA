@@ -44,8 +44,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Penalizaciones/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdPenalizacion,MontoPenalizacion,MotivoPenalizacion,IdDevolucion")] Penalizacion penalizacion)
@@ -78,8 +76,6 @@ namespace SCBiblioteca.Controllers
         }
 
         // POST: Penalizaciones/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdPenalizacion,MontoPenalizacion,MotivoPenalizacion,IdDevolucion")] Penalizacion penalizacion)
