@@ -36,8 +36,11 @@
           </Key>
           <Property Name="IdCompra" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Correlativo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Subtotal" Type="money" Nullable="false" />
+          <Property Name="TotalCompra" Type="money" StoreGeneratedPattern="Computed" />
           <Property Name="FechaCompra" Type="datetime" Nullable="false" />
-          <Property Name="TotalCompra" Type="money" Nullable="false" />
+          <Property Name="IdLibro" Type="int" Nullable="false" />
           <Property Name="IdEditorial" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Comprobante">
@@ -50,25 +53,6 @@
           <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="FechaVencimiento" Type="datetime" Nullable="false" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DetalleCompra">
-          <Key>
-            <PropertyRef Name="IdDetalleCompra" />
-          </Key>
-          <Property Name="IdDetalleCompra" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Cantidad" Type="int" Nullable="false" />
-          <Property Name="Subtotal" Type="money" Nullable="false" />
-          <Property Name="IdCompra" Type="int" Nullable="false" />
-          <Property Name="IdLibro" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DetalleSolicitud">
-          <Key>
-            <PropertyRef Name="IdDetalleSolicitud" />
-          </Key>
-          <Property Name="IdDetalleSolicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Cantidad" Type="int" Nullable="false" />
-          <Property Name="IdLibro" Type="int" Nullable="false" />
-          <Property Name="IdSolicitud" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Devolucion">
           <Key>
@@ -123,7 +107,8 @@
           <Property Name="IdPrestamo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FechaPrestamo" Type="datetime" Nullable="false" />
           <Property Name="Activo" Type="tinyint" Nullable="false" />
-          <Property Name="IdDetalleSolicitud" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="IdSolicitud" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -139,8 +124,9 @@
           <Property Name="IdSolicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FechaSolicitud" Type="datetime" Nullable="false" />
           <Property Name="CantidadLibros" Type="int" Nullable="false" />
-          <Property Name="Activo" Type="tinyint" Nullable="false" />
+          <Property Name="Activo" Type="int" Nullable="false" />
           <Property Name="IdCliente" Type="int" />
+          <Property Name="IdLibro" Type="int" Nullable="false" />
           <Property Name="IdUsuario" Type="int" />
         </EntityType>
         <EntityType Name="Usuario">
@@ -168,6 +154,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Compra_Libro">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="1" />
+          <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="IdLibro" />
+            </Principal>
+            <Dependent Role="Compra">
+              <PropertyRef Name="IdLibro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Comprobante_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
@@ -177,54 +175,6 @@
             </Principal>
             <Dependent Role="Comprobante">
               <PropertyRef Name="IdUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleCompra_Compra">
-          <End Role="Compra" Type="Self.Compra" Multiplicity="1" />
-          <End Role="DetalleCompra" Type="Self.DetalleCompra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Compra">
-              <PropertyRef Name="IdCompra" />
-            </Principal>
-            <Dependent Role="DetalleCompra">
-              <PropertyRef Name="IdCompra" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleCompra_Libro">
-          <End Role="Libro" Type="Self.Libro" Multiplicity="1" />
-          <End Role="DetalleCompra" Type="Self.DetalleCompra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Libro">
-              <PropertyRef Name="IdLibro" />
-            </Principal>
-            <Dependent Role="DetalleCompra">
-              <PropertyRef Name="IdLibro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleSolicitud_Libro">
-          <End Role="Libro" Type="Self.Libro" Multiplicity="1" />
-          <End Role="DetalleSolicitud" Type="Self.DetalleSolicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Libro">
-              <PropertyRef Name="IdLibro" />
-            </Principal>
-            <Dependent Role="DetalleSolicitud">
-              <PropertyRef Name="IdLibro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleSolicitud_Solicitud">
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="1" />
-          <End Role="DetalleSolicitud" Type="Self.DetalleSolicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Solicitud">
-              <PropertyRef Name="IdSolicitud" />
-            </Principal>
-            <Dependent Role="DetalleSolicitud">
-              <PropertyRef Name="IdSolicitud" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -288,15 +238,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Prestamo_DetalleSolicitud">
-          <End Role="DetalleSolicitud" Type="Self.DetalleSolicitud" Multiplicity="1" />
+        <Association Name="FK_Prestamo_Solicitud">
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="1" />
           <End Role="Prestamo" Type="Self.Prestamo" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DetalleSolicitud">
-              <PropertyRef Name="IdDetalleSolicitud" />
+            <Principal Role="Solicitud">
+              <PropertyRef Name="IdSolicitud" />
             </Principal>
             <Dependent Role="Prestamo">
-              <PropertyRef Name="IdDetalleSolicitud" />
+              <PropertyRef Name="IdSolicitud" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -309,6 +259,18 @@
             </Principal>
             <Dependent Role="Solicitud">
               <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Libro">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="1" />
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="IdLibro" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="IdLibro" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -342,8 +304,6 @@
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Compra" EntityType="Self.Compra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comprobante" EntityType="Self.Comprobante" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DetalleCompra" EntityType="Self.DetalleCompra" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DetalleSolicitud" EntityType="Self.DetalleSolicitud" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Devolucion" EntityType="Self.Devolucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Editorial" EntityType="Self.Editorial" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Especialidad" EntityType="Self.Especialidad" Schema="dbo" store:Type="Tables" />
@@ -357,25 +317,13 @@
             <End Role="Editorial" EntitySet="Editorial" />
             <End Role="Compra" EntitySet="Compra" />
           </AssociationSet>
+          <AssociationSet Name="FK_Compra_Libro" Association="Self.FK_Compra_Libro">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="Compra" EntitySet="Compra" />
+          </AssociationSet>
           <AssociationSet Name="FK_Comprobante_Usuario" Association="Self.FK_Comprobante_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Comprobante" EntitySet="Comprobante" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCompra_Compra" Association="Self.FK_DetalleCompra_Compra">
-            <End Role="Compra" EntitySet="Compra" />
-            <End Role="DetalleCompra" EntitySet="DetalleCompra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCompra_Libro" Association="Self.FK_DetalleCompra_Libro">
-            <End Role="Libro" EntitySet="Libro" />
-            <End Role="DetalleCompra" EntitySet="DetalleCompra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleSolicitud_Libro" Association="Self.FK_DetalleSolicitud_Libro">
-            <End Role="Libro" EntitySet="Libro" />
-            <End Role="DetalleSolicitud" EntitySet="DetalleSolicitud" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleSolicitud_Solicitud" Association="Self.FK_DetalleSolicitud_Solicitud">
-            <End Role="Solicitud" EntitySet="Solicitud" />
-            <End Role="DetalleSolicitud" EntitySet="DetalleSolicitud" />
           </AssociationSet>
           <AssociationSet Name="FK_Devolucion_Prestamo" Association="Self.FK_Devolucion_Prestamo">
             <End Role="Prestamo" EntitySet="Prestamo" />
@@ -397,12 +345,16 @@
             <End Role="Devolucion" EntitySet="Devolucion" />
             <End Role="Penalizacion" EntitySet="Penalizacion" />
           </AssociationSet>
-          <AssociationSet Name="FK_Prestamo_DetalleSolicitud" Association="Self.FK_Prestamo_DetalleSolicitud">
-            <End Role="DetalleSolicitud" EntitySet="DetalleSolicitud" />
+          <AssociationSet Name="FK_Prestamo_Solicitud" Association="Self.FK_Prestamo_Solicitud">
+            <End Role="Solicitud" EntitySet="Solicitud" />
             <End Role="Prestamo" EntitySet="Prestamo" />
           </AssociationSet>
           <AssociationSet Name="FK_Solicitud_Cliente" Association="Self.FK_Solicitud_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Libro" Association="Self.FK_Solicitud_Libro">
+            <End Role="Libro" EntitySet="Libro" />
             <End Role="Solicitud" EntitySet="Solicitud" />
           </AssociationSet>
           <AssociationSet Name="FK_Solicitud_Usuario" Association="Self.FK_Solicitud_Usuario">
@@ -453,11 +405,14 @@
           </Key>
           <Property Name="IdCompra" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Correlativo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Subtotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TotalCompra" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="FechaCompra" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TotalCompra" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IdLibro" Type="Int32" Nullable="false" />
           <Property Name="IdEditorial" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Editorial" Relationship="Self.FK_Compra_Editorial" FromRole="Compra" ToRole="Editorial" />
-          <NavigationProperty Name="DetalleCompra" Relationship="Self.FK_DetalleCompra_Compra" FromRole="Compra" ToRole="DetalleCompra" />
+          <NavigationProperty Name="Libro" Relationship="Self.FK_Compra_Libro" FromRole="Compra" ToRole="Libro" />
         </EntityType>
         <EntityType Name="Comprobante">
           <Key>
@@ -470,30 +425,6 @@
           <Property Name="FechaVencimiento" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Comprobante_Usuario" FromRole="Comprobante" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="DetalleCompra">
-          <Key>
-            <PropertyRef Name="IdDetalleCompra" />
-          </Key>
-          <Property Name="IdDetalleCompra" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="Subtotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="IdCompra" Type="Int32" Nullable="false" />
-          <Property Name="IdLibro" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Compra" Relationship="Self.FK_DetalleCompra_Compra" FromRole="DetalleCompra" ToRole="Compra" />
-          <NavigationProperty Name="Libro" Relationship="Self.FK_DetalleCompra_Libro" FromRole="DetalleCompra" ToRole="Libro" />
-        </EntityType>
-        <EntityType Name="DetalleSolicitud">
-          <Key>
-            <PropertyRef Name="IdDetalleSolicitud" />
-          </Key>
-          <Property Name="IdDetalleSolicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="IdLibro" Type="Int32" Nullable="false" />
-          <Property Name="IdSolicitud" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Libro" Relationship="Self.FK_DetalleSolicitud_Libro" FromRole="DetalleSolicitud" ToRole="Libro" />
-          <NavigationProperty Name="Solicitud" Relationship="Self.FK_DetalleSolicitud_Solicitud" FromRole="DetalleSolicitud" ToRole="Solicitud" />
-          <NavigationProperty Name="Prestamo" Relationship="Self.FK_Prestamo_DetalleSolicitud" FromRole="DetalleSolicitud" ToRole="Prestamo" />
         </EntityType>
         <EntityType Name="Devolucion">
           <Key>
@@ -537,9 +468,9 @@
           <Property Name="IdEspecialidad" Type="Int32" />
           <NavigationProperty Name="Autor" Relationship="Self.FK_Libro_Autor" FromRole="Libro" ToRole="Autor" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Libro_Categoria" FromRole="Libro" ToRole="Categoria" />
-          <NavigationProperty Name="DetalleCompra" Relationship="Self.FK_DetalleCompra_Libro" FromRole="Libro" ToRole="DetalleCompra" />
-          <NavigationProperty Name="DetalleSolicitud" Relationship="Self.FK_DetalleSolicitud_Libro" FromRole="Libro" ToRole="DetalleSolicitud" />
+          <NavigationProperty Name="Compra" Relationship="Self.FK_Compra_Libro" FromRole="Libro" ToRole="Compra" />
           <NavigationProperty Name="Especialidad" Relationship="Self.FK_Libro_Especialidad" FromRole="Libro" ToRole="Especialidad" />
+          <NavigationProperty Name="Solicitud" Relationship="Self.FK_Solicitud_Libro" FromRole="Libro" ToRole="Solicitud" />
         </EntityType>
         <EntityType Name="Penalizacion">
           <Key>
@@ -558,9 +489,10 @@
           <Property Name="IdPrestamo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FechaPrestamo" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Activo" Type="Byte" Nullable="false" />
-          <Property Name="IdDetalleSolicitud" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DetalleSolicitud" Relationship="Self.FK_Prestamo_DetalleSolicitud" FromRole="Prestamo" ToRole="DetalleSolicitud" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="IdSolicitud" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Devolucion" Relationship="Self.FK_Devolucion_Prestamo" FromRole="Prestamo" ToRole="Devolucion" />
+          <NavigationProperty Name="Solicitud" Relationship="Self.FK_Prestamo_Solicitud" FromRole="Prestamo" ToRole="Solicitud" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -577,11 +509,13 @@
           <Property Name="IdSolicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FechaSolicitud" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CantidadLibros" Type="Int32" Nullable="false" />
-          <Property Name="Activo" Type="Byte" Nullable="false" />
+          <Property Name="Activo" Type="Int32" Nullable="false" />
           <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdLibro" Type="Int32" Nullable="false" />
           <Property Name="IdUsuario" Type="Int32" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Solicitud_Cliente" FromRole="Solicitud" ToRole="Cliente" />
-          <NavigationProperty Name="DetalleSolicitud" Relationship="Self.FK_DetalleSolicitud_Solicitud" FromRole="Solicitud" ToRole="DetalleSolicitud" />
+          <NavigationProperty Name="Libro" Relationship="Self.FK_Solicitud_Libro" FromRole="Solicitud" ToRole="Libro" />
+          <NavigationProperty Name="Prestamo" Relationship="Self.FK_Prestamo_Solicitud" FromRole="Solicitud" ToRole="Prestamo" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Solicitud_Usuario" FromRole="Solicitud" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Usuario">
@@ -648,15 +582,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DetalleCompra_Compra">
-          <End Role="Compra" Type="Self.Compra" Multiplicity="1" />
-          <End Role="DetalleCompra" Type="Self.DetalleCompra" Multiplicity="*" />
+        <Association Name="FK_Compra_Libro">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="1" />
+          <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Compra">
-              <PropertyRef Name="IdCompra" />
+            <Principal Role="Libro">
+              <PropertyRef Name="IdLibro" />
             </Principal>
-            <Dependent Role="DetalleCompra">
-              <PropertyRef Name="IdCompra" />
+            <Dependent Role="Compra">
+              <PropertyRef Name="IdLibro" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -669,54 +603,6 @@
             </Principal>
             <Dependent Role="Comprobante">
               <PropertyRef Name="IdUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleCompra_Libro">
-          <End Role="Libro" Type="Self.Libro" Multiplicity="1" />
-          <End Role="DetalleCompra" Type="Self.DetalleCompra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Libro">
-              <PropertyRef Name="IdLibro" />
-            </Principal>
-            <Dependent Role="DetalleCompra">
-              <PropertyRef Name="IdLibro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleSolicitud_Libro">
-          <End Role="Libro" Type="Self.Libro" Multiplicity="1" />
-          <End Role="DetalleSolicitud" Type="Self.DetalleSolicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Libro">
-              <PropertyRef Name="IdLibro" />
-            </Principal>
-            <Dependent Role="DetalleSolicitud">
-              <PropertyRef Name="IdLibro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleSolicitud_Solicitud">
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="1" />
-          <End Role="DetalleSolicitud" Type="Self.DetalleSolicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Solicitud">
-              <PropertyRef Name="IdSolicitud" />
-            </Principal>
-            <Dependent Role="DetalleSolicitud">
-              <PropertyRef Name="IdSolicitud" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Prestamo_DetalleSolicitud">
-          <End Role="DetalleSolicitud" Type="Self.DetalleSolicitud" Multiplicity="1" />
-          <End Role="Prestamo" Type="Self.Prestamo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DetalleSolicitud">
-              <PropertyRef Name="IdDetalleSolicitud" />
-            </Principal>
-            <Dependent Role="Prestamo">
-              <PropertyRef Name="IdDetalleSolicitud" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -756,6 +642,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Solicitud_Libro">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="1" />
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="IdLibro" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="IdLibro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prestamo_Solicitud">
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="1" />
+          <End Role="Prestamo" Type="Self.Prestamo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solicitud">
+              <PropertyRef Name="IdSolicitud" />
+            </Principal>
+            <Dependent Role="Prestamo">
+              <PropertyRef Name="IdSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_Rol">
           <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -786,8 +696,6 @@
           <EntitySet Name="Cliente" EntityType="Self.Cliente" />
           <EntitySet Name="Compra" EntityType="Self.Compra" />
           <EntitySet Name="Comprobante" EntityType="Self.Comprobante" />
-          <EntitySet Name="DetalleCompra" EntityType="Self.DetalleCompra" />
-          <EntitySet Name="DetalleSolicitud" EntityType="Self.DetalleSolicitud" />
           <EntitySet Name="Devolucion" EntityType="Self.Devolucion" />
           <EntitySet Name="Editorial" EntityType="Self.Editorial" />
           <EntitySet Name="Especialidad" EntityType="Self.Especialidad" />
@@ -813,29 +721,13 @@
             <End Role="Editorial" EntitySet="Editorial" />
             <End Role="Compra" EntitySet="Compra" />
           </AssociationSet>
-          <AssociationSet Name="FK_DetalleCompra_Compra" Association="Self.FK_DetalleCompra_Compra">
+          <AssociationSet Name="FK_Compra_Libro" Association="Self.FK_Compra_Libro">
+            <End Role="Libro" EntitySet="Libro" />
             <End Role="Compra" EntitySet="Compra" />
-            <End Role="DetalleCompra" EntitySet="DetalleCompra" />
           </AssociationSet>
           <AssociationSet Name="FK_Comprobante_Usuario" Association="Self.FK_Comprobante_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Comprobante" EntitySet="Comprobante" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleCompra_Libro" Association="Self.FK_DetalleCompra_Libro">
-            <End Role="Libro" EntitySet="Libro" />
-            <End Role="DetalleCompra" EntitySet="DetalleCompra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleSolicitud_Libro" Association="Self.FK_DetalleSolicitud_Libro">
-            <End Role="Libro" EntitySet="Libro" />
-            <End Role="DetalleSolicitud" EntitySet="DetalleSolicitud" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleSolicitud_Solicitud" Association="Self.FK_DetalleSolicitud_Solicitud">
-            <End Role="Solicitud" EntitySet="Solicitud" />
-            <End Role="DetalleSolicitud" EntitySet="DetalleSolicitud" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Prestamo_DetalleSolicitud" Association="Self.FK_Prestamo_DetalleSolicitud">
-            <End Role="DetalleSolicitud" EntitySet="DetalleSolicitud" />
-            <End Role="Prestamo" EntitySet="Prestamo" />
           </AssociationSet>
           <AssociationSet Name="FK_Devolucion_Prestamo" Association="Self.FK_Devolucion_Prestamo">
             <End Role="Prestamo" EntitySet="Prestamo" />
@@ -848,6 +740,14 @@
           <AssociationSet Name="FK_Libro_Especialidad" Association="Self.FK_Libro_Especialidad">
             <End Role="Especialidad" EntitySet="Especialidad" />
             <End Role="Libro" EntitySet="Libro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Libro" Association="Self.FK_Solicitud_Libro">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prestamo_Solicitud" Association="Self.FK_Prestamo_Solicitud">
+            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="Prestamo" EntitySet="Prestamo" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
             <End Role="Rol" EntitySet="Rol" />
@@ -897,8 +797,11 @@
               <MappingFragment StoreEntitySet="Compra">
                 <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />
                 <ScalarProperty Name="Correlativo" ColumnName="Correlativo" />
-                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
                 <ScalarProperty Name="TotalCompra" ColumnName="TotalCompra" />
+                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
+                <ScalarProperty Name="IdLibro" ColumnName="IdLibro" />
                 <ScalarProperty Name="IdEditorial" ColumnName="IdEditorial" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -912,27 +815,6 @@
                 <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
                 <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DetalleCompra">
-            <EntityTypeMapping TypeName="SCBibliotecaModel.DetalleCompra">
-              <MappingFragment StoreEntitySet="DetalleCompra">
-                <ScalarProperty Name="IdDetalleCompra" ColumnName="IdDetalleCompra" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
-                <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />
-                <ScalarProperty Name="IdLibro" ColumnName="IdLibro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DetalleSolicitud">
-            <EntityTypeMapping TypeName="SCBibliotecaModel.DetalleSolicitud">
-              <MappingFragment StoreEntitySet="DetalleSolicitud">
-                <ScalarProperty Name="IdDetalleSolicitud" ColumnName="IdDetalleSolicitud" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="IdLibro" ColumnName="IdLibro" />
-                <ScalarProperty Name="IdSolicitud" ColumnName="IdSolicitud" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -993,7 +875,8 @@
                 <ScalarProperty Name="IdPrestamo" ColumnName="IdPrestamo" />
                 <ScalarProperty Name="FechaPrestamo" ColumnName="FechaPrestamo" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
-                <ScalarProperty Name="IdDetalleSolicitud" ColumnName="IdDetalleSolicitud" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdSolicitud" ColumnName="IdSolicitud" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1013,6 +896,7 @@
                 <ScalarProperty Name="CantidadLibros" ColumnName="CantidadLibros" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdLibro" ColumnName="IdLibro" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
               </MappingFragment>
             </EntityTypeMapping>

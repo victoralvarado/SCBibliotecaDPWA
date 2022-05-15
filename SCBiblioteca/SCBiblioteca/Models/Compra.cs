@@ -14,20 +14,16 @@ namespace SCBiblioteca.Models
     
     public partial class Compra
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Compra()
-        {
-            this.DetalleCompra = new HashSet<DetalleCompra>();
-        }
-    
         public int IdCompra { get; set; }
         public string Correlativo { get; set; }
+        public int Cantidad { get; set; }
+        public decimal Subtotal { get; set; }
+        public Nullable<decimal> TotalCompra { get; set; }
         public System.DateTime FechaCompra { get; set; }
-        public decimal TotalCompra { get; set; }
+        public int IdLibro { get; set; }
         public int IdEditorial { get; set; }
     
         public virtual Editorial Editorial { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleCompra> DetalleCompra { get; set; }
+        public virtual Libro Libro { get; set; }
     }
 }

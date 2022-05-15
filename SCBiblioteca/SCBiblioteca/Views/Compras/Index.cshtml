@@ -15,13 +15,22 @@
             @Html.DisplayNameFor(model => model.Correlativo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FechaCompra)
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subtotal)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TotalCompra)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.FechaCompra)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Editorial.Editorial1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Libro.Titulo)
         </th>
         <th></th>
     </tr>
@@ -32,13 +41,22 @@
             @Html.DisplayFor(modelItem => item.Correlativo)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FechaCompra)
+            @Html.DisplayFor(modelItem => item.Cantidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subtotal)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TotalCompra)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.FechaCompra)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Editorial.Editorial1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Libro.Titulo)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.IdCompra }) |

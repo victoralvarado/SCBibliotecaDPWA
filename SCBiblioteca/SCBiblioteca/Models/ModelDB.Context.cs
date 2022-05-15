@@ -30,8 +30,6 @@ namespace SCBiblioteca.Models
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Compra> Compra { get; set; }
         public virtual DbSet<Comprobante> Comprobante { get; set; }
-        public virtual DbSet<DetalleCompra> DetalleCompra { get; set; }
-        public virtual DbSet<DetalleSolicitud> DetalleSolicitud { get; set; }
         public virtual DbSet<Devolucion> Devolucion { get; set; }
         public virtual DbSet<Editorial> Editorial { get; set; }
         public virtual DbSet<Especialidad> Especialidad { get; set; }

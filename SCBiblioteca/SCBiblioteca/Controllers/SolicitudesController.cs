@@ -17,7 +17,7 @@ namespace SCBiblioteca.Controllers
         // GET: Solicitudes
         public ActionResult Index()
         {
-            var solicitud = db.Solicitud.Include(s => s.Cliente).Include(s => s.Usuario);
+            var solicitud = db.Solicitud.Include(s => s.Cliente).Include(s => s.Libro).Include(s => s.Usuario);
             return View(solicitud.ToList());
         }
 
@@ -40,6 +40,7 @@ namespace SCBiblioteca.Controllers
         public ActionResult Create()
         {
             ViewBag.IdCliente = new SelectList(db.Cliente, "IdCliente", "NombreCompleto");
+            ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo");
             ViewBag.IdUsuario = new SelectList(db.Usuario, "IdUsuario", "NombreCompleto");
             return View();
         }
@@ -49,7 +50,7 @@ namespace SCBiblioteca.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdSolicitud,FechaSolicitud,CantidadLibros,Activo,IdCliente,IdUsuario")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "IdSolicitud,FechaSolicitud,CantidadLibros,Activo,IdCliente,IdLibro,IdUsuario")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +60,7 @@ namespace SCBiblioteca.Controllers
             }
 
             ViewBag.IdCliente = new SelectList(db.Cliente, "IdCliente", "NombreCompleto", solicitud.IdCliente);
+            ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo", solicitud.IdLibro);
             ViewBag.IdUsuario = new SelectList(db.Usuario, "IdUsuario", "NombreCompleto", solicitud.IdUsuario);
             return View(solicitud);
         }
@@ -76,6 +78,7 @@ namespace SCBiblioteca.Controllers
                 return HttpNotFound();
             }
             ViewBag.IdCliente = new SelectList(db.Cliente, "IdCliente", "NombreCompleto", solicitud.IdCliente);
+            ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo", solicitud.IdLibro);
             ViewBag.IdUsuario = new SelectList(db.Usuario, "IdUsuario", "NombreCompleto", solicitud.IdUsuario);
             return View(solicitud);
         }
@@ -85,7 +88,7 @@ namespace SCBiblioteca.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdSolicitud,FechaSolicitud,CantidadLibros,Activo,IdCliente,IdUsuario")] Solicitud solicitud)
+        public ActionResult Edit([Bind(Include = "IdSolicitud,FechaSolicitud,CantidadLibros,Activo,IdCliente,IdLibro,IdUsuario")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +97,7 @@ namespace SCBiblioteca.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.IdCliente = new SelectList(db.Cliente, "IdCliente", "NombreCompleto", solicitud.IdCliente);
+            ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo", solicitud.IdLibro);
             ViewBag.IdUsuario = new SelectList(db.Usuario, "IdUsuario", "NombreCompleto", solicitud.IdUsuario);
             return View(solicitud);
         }

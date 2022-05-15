@@ -17,7 +17,7 @@ namespace SCBiblioteca.Controllers
         // GET: Compras
         public ActionResult Index()
         {
-            var compra = db.Compra.Include(c => c.Editorial);
+            var compra = db.Compra.Include(c => c.Editorial).Include(c => c.Libro);
             return View(compra.ToList());
         }
 
@@ -40,6 +40,7 @@ namespace SCBiblioteca.Controllers
         public ActionResult Create()
         {
             ViewBag.IdEditorial = new SelectList(db.Editorial, "IdEditorial", "Editorial1");
+            ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo");
             return View();
         }
 
@@ -48,7 +49,7 @@ namespace SCBiblioteca.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCompra,Correlativo,FechaCompra,TotalCompra,IdEditorial")] Compra compra)
+        public ActionResult Create([Bind(Include = "IdCompra,Correlativo,Cantidad,Subtotal,TotalCompra,FechaCompra,IdLibro,IdEditorial")] Compra compra)
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +59,7 @@ namespace SCBiblioteca.Controllers
             }
 
             ViewBag.IdEditorial = new SelectList(db.Editorial, "IdEditorial", "Editorial1", compra.IdEditorial);
+            ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo", compra.IdLibro);
             return View(compra);
         }
 
@@ -74,6 +76,7 @@ namespace SCBiblioteca.Controllers
                 return HttpNotFound();
             }
             ViewBag.IdEditorial = new SelectList(db.Editorial, "IdEditorial", "Editorial1", compra.IdEditorial);
+            ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo", compra.IdLibro);
             return View(compra);
         }
 
@@ -82,7 +85,7 @@ namespace SCBiblioteca.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdCompra,Correlativo,FechaCompra,TotalCompra,IdEditorial")] Compra compra)
+        public ActionResult Edit([Bind(Include = "IdCompra,Correlativo,Cantidad,Subtotal,TotalCompra,FechaCompra,IdLibro,IdEditorial")] Compra compra)
         {
             if (ModelState.IsValid)
             {
@@ -91,6 +94,7 @@ namespace SCBiblioteca.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.IdEditorial = new SelectList(db.Editorial, "IdEditorial", "Editorial1", compra.IdEditorial);
+            ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo", compra.IdLibro);
             return View(compra);
         }
 
