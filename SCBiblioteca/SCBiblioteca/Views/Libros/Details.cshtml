@@ -1,0 +1,66 @@
+﻿@model SCBiblioteca.Models.Libro
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Libro</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Stock)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stock)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Autor.Autor1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Autor.Autor1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Categoria.Categoria1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Categoria.Categoria1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Especialidad.Especialidad1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Especialidad.Especialidad1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdLibro }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

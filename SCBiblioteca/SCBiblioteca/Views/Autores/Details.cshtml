@@ -1,0 +1,26 @@
+﻿@model SCBiblioteca.Models.Autor
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Autor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Autor1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Autor1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdAutor }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

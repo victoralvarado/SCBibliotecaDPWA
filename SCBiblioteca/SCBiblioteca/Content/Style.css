@@ -1,0 +1,149 @@
+﻿html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    margin: 0;
+    margin-bottom: 40px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+}
+
+a {
+    color: #106eea;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #3b8af2;
+        text-decoration: none;
+    }
+
+
+#cover {
+    width: 100%;
+    height: 75vh;
+    background: url("https://www.esri.com/about/newsroom/wp-content/uploads/2022/01/books-wide2.jpg") top left;
+    background-size: cover;
+    position: relative;
+}
+
+    #cover:before {
+        content: "";
+        background: rgba(255, 255, 255, 0.6);
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    #cover .container {
+        position: relative;
+    }
+
+    #cover h1 {
+        margin: 0;
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 56px;
+        color: #222222;
+        font-family: "Poppins", sans-serif;
+    }
+
+        #cover h1 span {
+            color: #106eea;
+        }
+
+    #cover h2 {
+        color: #555555;
+        margin: 5px 0 30px 0;
+        font-size: 24px;
+        font-weight: 400;
+    }
+
+    #cover .btn-get-started {
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: 1px;
+        display: inline-block;
+        padding: 10px 28px;
+        border-radius: 4px;
+        transition: 0.5s;
+        color: #fff;
+        background: #106eea;
+    }
+
+#hero .btn-get-started:hover {
+    background: #247cf0;
+}
+
+.featured-services .icon-box {
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+    .featured-services .icon-box::before {
+        content: "";
+        position: absolute;
+        background: #cbe0fb;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        top: 100%;
+        transition: all 0.3s;
+        z-index: -1;
+    }
+
+    .featured-services .icon-box:hover::before {
+        background: #106eea;
+        top: 0;
+        border-radius: 0px;
+    }
+
+.featured-services .icon {
+    margin-bottom: 15px;
+}
+
+    .featured-services .icon i {
+        font-size: 48px;
+        line-height: 1;
+        color: #106eea;
+        transition: all 0.3s ease-in-out;
+    }
+
+.featured-services .title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+    .featured-services .title a {
+        color: #111;
+    }
+
+.featured-services .description {
+    font-size: 15px;
+    line-height: 28px;
+    margin-bottom: 0;
+}
+
+.featured-services .icon-box:hover .title a, .featured-services .icon-box:hover .description {
+    color: #fff;
+}
+
+.featured-services .icon-box:hover .icon i {
+    color: #fff;
+}
