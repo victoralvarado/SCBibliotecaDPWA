@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/fontawesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Style.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+            <div class="container">
+                <a href='@Url.Action("Index","Home")' class="navbar-brand"><i class="fas fa-book-reader"></i> SCBiblioteca</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a href='@Url.Action("Index","Home")' class="nav-link"><i class="fas fa-home"></i> Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='@Url.Action("Index","Home")' class="nav-link"><i class="fas fa-search"></i> Consultar Libros</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-cog"></i> Mantenimiento
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <p class="text-center">Libro</p>
+                                <a href='@Url.Action("Index","Libros")' class="dropdown-item"><i class="fas fa-book"></i> Libros</a>
+                                <a href='@Url.Action("Index","Categorias")' class="dropdown-item"><i class="fas fa-tags"></i></i> Categorias</a>
+                                <a href='@Url.Action("Index","Autores")' class="dropdown-item"><i class="fas fa-address-book"></i> Autores</a>
+                                <a href='@Url.Action("Index","Especialidades")' class="dropdown-item"><i class="fas fa-list"></i> Especialidades</a>
+                                <div class="dropdown-divider"></div>
+                                <p class="text-center">Prestamo</p>
+                                <a href='@Url.Action("Index","Prestamos")' class="dropdown-item"><i class="fas fa-hand-holding"></i> Prestamos</a>
+                                <a href='@Url.Action("Index","Solicitudes")' class="dropdown-item"><i class="fas fa-file-invoice"></i> Solicitudes</a>
+                                <a href='@Url.Action("Index","DetalleSolicitudes")' class="dropdown-item"><i class="fas fa-file-invoice"></i> Detalle Solicitudes</a>
+                                <a href='@Url.Action("Index","Devoluciones")' class="dropdown-item"><i class="fas fa-file-import"></i> Devoluciones</a>
+                                <a href='@Url.Action("Index","Penalizaciones")' class="dropdown-item"><i class="fas fa-file-invoice-dollar"></i> Penalizaciones</a>
+                                <div class="dropdown-divider"></div>
+                                <p class="text-center">Usuario</p>
+                                <a href='@Url.Action("Index","Usuarios")' class="dropdown-item"><i class="fas fa-user"></i> Usuarios</a>
+                                <a href='@Url.Action("Index","Clientes")' class="dropdown-item"><i class="fas fa-id-card"></i> Clientes</a>
+                                <a href='@Url.Action("Index","Comprobantes")' class="dropdown-item"><i class="fas fa-receipt"></i> Comprobantes</a>
+                                <a href='@Url.Action("Index","Roles")' class="dropdown-item"><i class="fas fa-user-shield"></i> Roles</a>
+                                <div class="dropdown-divider"></div>
+                                <p class="text-center">Compra</p>
+                                <a href='@Url.Action("Index","Compras")' class="dropdown-item"><i class="fas fa-shopping-bag"></i> Compras</a>
+                                <a href='@Url.Action("Index","DetalleCompras")' class="dropdown-item"><i class="fas fa-file-alt"></i> Detalle Compras</a>
+                                <a href='@Url.Action("Index","Editoriales")' class="dropdown-item"><i class="fas fa-store"></i> Editoriales</a>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="">
+        @RenderBody()
+        <hr />
+        <div class="container-fluid">
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/fontawesome/all.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</body>
+</html>

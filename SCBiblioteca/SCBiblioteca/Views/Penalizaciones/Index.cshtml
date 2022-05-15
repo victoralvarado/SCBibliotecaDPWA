@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SCBiblioteca.Models.Penalizacion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MontoPenalizacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MotivoPenalizacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Devolucion.Observaciones)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MontoPenalizacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MotivoPenalizacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Devolucion.Observaciones)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdPenalizacion }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdPenalizacion }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdPenalizacion })
+        </td>
+    </tr>
+}
+
+</table>

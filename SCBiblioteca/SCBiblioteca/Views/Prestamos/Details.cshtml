@@ -1,0 +1,42 @@
+﻿@model SCBiblioteca.Models.Prestamo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Prestamo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaPrestamo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaPrestamo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DetalleSolicitud.IdDetalleSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DetalleSolicitud.IdDetalleSolicitud)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdPrestamo }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

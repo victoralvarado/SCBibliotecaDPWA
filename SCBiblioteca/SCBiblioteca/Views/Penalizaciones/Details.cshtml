@@ -1,0 +1,42 @@
+﻿@model SCBiblioteca.Models.Penalizacion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Penalizacion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MontoPenalizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MontoPenalizacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MotivoPenalizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MotivoPenalizacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Devolucion.Observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Devolucion.Observaciones)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdPenalizacion }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
