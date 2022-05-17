@@ -2,6 +2,7 @@ namespace SCBiblioteca.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class Autor
     {
@@ -12,6 +13,9 @@ namespace SCBiblioteca.Models
         }
 
         public int IdAutor { get; set; }
+
+        [Display(Name = "Autor")]
+        [Required(ErrorMessage = "El {0} es requerido.")]
         public string Autor1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

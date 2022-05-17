@@ -2,6 +2,7 @@ namespace SCBiblioteca.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class Categoria
     {
@@ -12,6 +13,9 @@ namespace SCBiblioteca.Models
         }
 
         public int IdCategoria { get; set; }
+
+        [Display(Name = "Categoria")]
+        [Required(ErrorMessage = "La {0} es requerida.")]
         public string Categoria1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

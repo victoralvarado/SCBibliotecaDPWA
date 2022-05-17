@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    ViewBag.Inicio = "active";
 }
 <section id="cover" class="d-flex align-items-center">
     <div class="container" data-aos="zoom-out" data-aos-delay="100">
@@ -19,7 +20,7 @@
                 <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
                     <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
                         <div class="icon"><i class="fas fa-sticky-note"></i></div>
-                        <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+                        <h4 class="title"><a href="">@System.Web.HttpContext.Current.Session["UserSesion"]</a></h4>
                         <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
                     </div>
                 </div>

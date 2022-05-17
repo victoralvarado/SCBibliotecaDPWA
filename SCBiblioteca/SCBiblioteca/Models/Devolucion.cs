@@ -2,6 +2,7 @@ namespace SCBiblioteca.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class Devolucion
     {
@@ -12,8 +13,15 @@ namespace SCBiblioteca.Models
         }
 
         public int IdDevolucion { get; set; }
+
+        [Display(Name = "Fecha de devolución")]
+        [Required(ErrorMessage = "La {0} es requerida.")]
         public System.DateTime FechaDevolucion { get; set; }
+
+        [Display(Name = "Observaciones")]
         public string Observaciones { get; set; }
+
+        [Display(Name = "Prestamo")]
         public int IdPrestamo { get; set; }
 
         public virtual Prestamo Prestamo { get; set; }
