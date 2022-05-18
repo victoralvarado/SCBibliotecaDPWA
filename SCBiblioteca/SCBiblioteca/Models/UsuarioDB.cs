@@ -75,8 +75,6 @@ namespace SCBiblioteca.Models
             cmd.Parameters.AddWithValue("@Password", u.Password);
             cmd.Parameters.AddWithValue("@IdRol", Rol());
             cmd.Parameters.AddWithValue("@Telefono", telefono);
-
-            con.Open();
             int res = cmd.ExecuteNonQuery();
             con.Close();
             if (res >= 1)

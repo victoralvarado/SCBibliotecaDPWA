@@ -5,63 +5,76 @@
     ViewBag.Libros = "active";
     ViewBag.Mantenimiento = "active";
 }
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        var table = $('#tablelibros').dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            }
+        });
+    });
+</script>
 <div class="container my-3">
     <h2>Index</h2>
-    
+
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-    <table class="table table-bordered table-responsive">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Autor.Autor1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categoria.Categoria1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Especialidad.Especialidad1)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <table class="display table table-bordered table-responsive-lg" id="tablelibros" width="100%">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Titulo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Activo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Autor.Autor1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Categoria.Categoria1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especialidad.Especialidad1)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.IdLibro }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IdLibro }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdLibro })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Titulo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Activo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Autor.Autor1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Categoria.Categoria1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Especialidad.Especialidad1)
+                </th>
+                <th>Acción</th>
             </tr>
-        }
-
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Activo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Autor.Autor1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Categoria.Categoria1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Especialidad.Especialidad1)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdLibro }, new { @class = "my-1 btn btn-success" })
+                        @Html.ActionLink("Detalles", "Details", new { id = item.IdLibro }, new { @class = "my-1 btn btn-info" })
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdLibro }, new { @class = "my-1 btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>

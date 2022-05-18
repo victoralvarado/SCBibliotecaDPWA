@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "IniciarSesion";
+ViewBag.IniciarSesion = "active";
 }
 <style>
     a {
@@ -28,8 +29,7 @@
                     <div class="row">
                         <div class="col-md-7 pe-0">
                             <div class="form-left h-100 py-5 px-5">
-                                @using (Html.BeginForm("IniciarSesion", "Home", FormMethod.Post,
-htmlAttributes: new { id = "formLogin" }))
+                                @using (Html.BeginForm("IniciarSesion", "Home", FormMethod.Post, htmlAttributes: new { id = "formLogin" }))
                                 {
                                     <div class="col-12">
                                         <label>Usuario<span class="text-danger">*</span></label>
@@ -43,7 +43,10 @@ htmlAttributes: new { id = "formLogin" }))
                                         <label>Contraseña<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-text"><i class="fas fa-lock"></i></div>
-                                            <input type="password" class="form-control" name="password" placeholder="Ingrese su Contraseña" required>
+                                            <input type="password" class="form-control" name="password" id="Password" placeholder="Ingrese su Contraseña" required>
+                                            <div class="input-group-append">
+                                                <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span> </button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row mx-1">
@@ -77,5 +80,17 @@ htmlAttributes: new { id = "formLogin" }))
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function mostrarPassword() {
+        var cambio = document.getElementById("Password");
+        if (cambio.type == "password") {
+            cambio.type = "text";
+            $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+        } else {
+            cambio.type = "password";
+            $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+        }
+    }
+</script>
 
 

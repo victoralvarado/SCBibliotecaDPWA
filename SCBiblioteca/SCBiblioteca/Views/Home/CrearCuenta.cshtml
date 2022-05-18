@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "CrearCuenta";
+    ViewBag.CrearCuenta = "active";
 }
 <style>
     a {
@@ -31,8 +32,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-left h-100 py-5 px-5">
-                                @using (Html.BeginForm("CrearCuenta", "Home", FormMethod.Post,
-htmlAttributes: new { id = "formLogin" }))
+                                @using (Html.BeginForm("CrearCuenta", "Home", FormMethod.Post, htmlAttributes: new { id = "formLogin" }))
                                 {
                                     <div class="col-12">
                                         <label>Nombre Completo<span class="text-danger">*</span></label>
@@ -72,7 +72,7 @@ htmlAttributes: new { id = "formLogin" }))
                                     <div class="col-12">
                                         <label>Usuario<span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="Usuario" placeholder="Ingrese su Usuario" required>
+                                            <input type="text" class="form-control" name="Usuario1" placeholder="Ingrese su Usuario" required>
                                         </div>
                                     </div>
 

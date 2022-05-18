@@ -53,7 +53,7 @@ namespace SCBiblioteca.Controllers
         public ActionResult CrearCuenta(Usuario u, string Telefono)
         {
             UsuarioDB bd = new UsuarioDB();
-            if (bd.CrearCuenta(u, telefono))
+            if (bd.CrearCuenta(u, Telefono))
             {
                 ViewBag.estadoRegistro = "";
                 return View();
