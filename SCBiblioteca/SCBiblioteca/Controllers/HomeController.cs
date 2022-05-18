@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SCBiblioteca.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,55 @@ namespace SCBiblioteca.Controllers
 
         // GET: Home/Details/5
         public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        public ActionResult CerrarSesion()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult IniciarSesion()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult IniciarSesion(string usuario, string password)
+        {
+            UsuarioDB bd = new UsuarioDB();
+            if (bd.Login(usuario, password))
+            {
+                ViewBag.estado = "";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.estado = "Usuario o Constraseña incorrectos";
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CrearCuenta(Usuario u, string Telefono)
+        {
+            UsuarioDB bd = new UsuarioDB();
+            if (bd.CrearCuenta(u, Telefono))
+            {
+                ViewBag.estadoRegistro = "";
+                return View();
+            }
+            else
+            {
+                ViewBag.estadoRegistro = "Ocurrio un error";
+            }
+            return View();
+        }
+
+        public ActionResult CrearCuenta()
         {
             return View();
         }

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,70 +8,117 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/fontawesome.min.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+
 </head>
 <body>
+    <style>
+        ::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+    </style>
     <header>
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
             <div class="container">
-                <a href='@Url.Action("Index","Home")' class="navbar-brand"><i class="fas fa-book-reader"></i> SCBiblioteca</a>
+                <a href='@Url.Action("Index", "Home")' class="navbar-brand"><i class="fas fa-book-reader"></i> SCBiblioteca</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a href='@Url.Action("Index","Home")' class="nav-link"><i class="fas fa-home"></i> Inicio</a>
+                        <li class="nav-item @ViewBag.Inicio">
+                            <a href='@Url.Action("Index", "Home")' class="nav-link"><i class="fas fa-home"></i> Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a href='@Url.Action("Index","Home")' class="nav-link"><i class="fas fa-search"></i> Consultar Libros</a>
+                        <li class="nav-item @ViewBag.ConsultarLibros">
+                            <a href='@Url.Action("Index", "Home")' class="nav-link"><i class="fas fa-search"></i> Consultar Libros</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-cog"></i> Mantenimiento
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <p class="text-center">Libro</p>
-                                <a href='@Url.Action("Index","Libros")' class="dropdown-item"><i class="fas fa-book"></i> Libros</a>
-                                <a href='@Url.Action("Index","Categorias")' class="dropdown-item"><i class="fas fa-tags"></i></i> Categorias</a>
-                                <a href='@Url.Action("Index","Autores")' class="dropdown-item"><i class="fas fa-address-book"></i> Autores</a>
-                                <a href='@Url.Action("Index","Especialidades")' class="dropdown-item"><i class="fas fa-list"></i> Especialidades</a>
-                                <div class="dropdown-divider"></div>
-                                <p class="text-center">Prestamo</p>
-                                <a href='@Url.Action("Index","Prestamos")' class="dropdown-item"><i class="fas fa-hand-holding"></i> Prestamos</a>
-                                <a href='@Url.Action("Index","Solicitudes")' class="dropdown-item"><i class="fas fa-file-invoice"></i> Solicitudes</a>
-                                <a href='@Url.Action("Index","Devoluciones")' class="dropdown-item"><i class="fas fa-file-import"></i> Devoluciones</a>
-                                <a href='@Url.Action("Index","Penalizaciones")' class="dropdown-item"><i class="fas fa-file-invoice-dollar"></i> Penalizaciones</a>
-                                <div class="dropdown-divider"></div>
-                                <p class="text-center">Usuario</p>
-                                <a href='@Url.Action("Index","Usuarios")' class="dropdown-item"><i class="fas fa-user"></i> Usuarios</a>
-                                <a href='@Url.Action("Index","Clientes")' class="dropdown-item"><i class="fas fa-id-card"></i> Clientes</a>
-                                <a href='@Url.Action("Index","Comprobantes")' class="dropdown-item"><i class="fas fa-receipt"></i> Comprobantes</a>
-                                <a href='@Url.Action("Index","Roles")' class="dropdown-item"><i class="fas fa-user-shield"></i> Roles</a>
-                                <div class="dropdown-divider"></div>
-                                <p class="text-center">Compra</p>
-                                <a href='@Url.Action("Index","Compras")' class="dropdown-item"><i class="fas fa-shopping-bag"></i> Compras</a>
-                                <a href='@Url.Action("Index","Editoriales")' class="dropdown-item"><i class="fas fa-store"></i> Editoriales</a>
+                        @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
+                        {
+                            String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
+                            if (sesion.Equals("Administrador"))
+                            {
+                                <li class="nav-item dropdown @ViewBag.Mantenimiento">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-cog"></i> Mantenimiento
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <p class="text-center">Libro</p>
+                                        <a href='@Url.Action("Index", "Libros")' class="dropdown-item @ViewBag.Libros"><i class="fas fa-book"></i> Libros</a>
+                                        <a href='@Url.Action("Index", "Categorias")' class="dropdown-item @ViewBag.Categorias"><i class="fas fa-tags"></i> Categorias</a>
+                                        <a href='@Url.Action("Index", "Autores")' class="dropdown-item @ViewBag.Autores"><i class="fas fa-address-book"></i> Autores</a>
+                                        <a href='@Url.Action("Index", "Especialidades")' class="dropdown-item @ViewBag.Especialidades"><i class="fas fa-list"></i> Especialidades</a>
+                                        <div class="dropdown-divider"></div>
+                                        <p class="text-center">Prestamo</p>
+                                        <a href='@Url.Action("Index", "Prestamos")' class="dropdown-item @ViewBag.Prestamos"><i class="fas fa-hand-holding"></i> Prestamos</a>
+                                        <a href='@Url.Action("Index", "Solicitudes")' class="dropdown-item @ViewBag.Solicitudes"><i class="fas fa-file-invoice"></i> Solicitudes</a>
+                                        <a href='@Url.Action("Index", "Devoluciones")' class="dropdown-item @ViewBag.Devoluciones"><i class="fas fa-file-import"></i> Devoluciones</a>
+                                        <a href='@Url.Action("Index", "Penalizaciones")' class="dropdown-item @ViewBag.Penalizaciones"><i class="fas fa-file-invoice-dollar"></i> Penalizaciones</a>
+                                        <div class="dropdown-divider"></div>
+                                        <p class="text-center">Usuario</p>
+                                        <a href='@Url.Action("Index", "Usuarios")' class="dropdown-item @ViewBag.Usuarios"><i class="fas fa-user"></i> Usuarios</a>
+                                        <a href='@Url.Action("Index", "Clientes")' class="dropdown-item @ViewBag.Clientes"><i class="fas fa-id-card"></i> Clientes</a>
+                                        <a href='@Url.Action("Index", "Comprobantes")' class="dropdown-item @ViewBag.Comprobantes"><i class="fas fa-receipt"></i> Comprobantes</a>
+                                        <a href='@Url.Action("Index", "Roles")' class="dropdown-item @ViewBag.Roles"><i class="fas fa-user-shield"></i> Roles</a>
+                                        <div class="dropdown-divider"></div>
+                                        <p class="text-center">Compra</p>
+                                        <a href='@Url.Action("Index", "Compras")' class="dropdown-item @ViewBag.Compras"><i class="fas fa-shopping-bag"></i> Compras</a>
+                                        <a href='@Url.Action("Index", "Editoriales")' class="dropdown-item @ViewBag.Editoriales"><i class="fas fa-store"></i> Editoriales</a>
+                                        <div class="dropdown-divider"></div>
+                                        <p class="text-center">Reportes</p>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
 
-                            </div>
-                        </li>
+                        @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
+                        {
+                            <li class="nav-item">
+                                <a href='@Url.Action("CerrarSesion", "Home")' class="nav-link">Cerrar Sesión</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item @ViewBag.IniciarSesion">
+                                <a href='@Url.Action("IniciarSesion", "Home")' class="nav-link">Iniciar Sesión</a>
+                            </li>
+                            <li class="nav-item @ViewBag.CrearCuenta">
+                                <a href='@Url.Action("CrearCuenta", "Home")' class="nav-link">Crear Cuenta</a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
+
             </div>
         </nav>
     </header>
     <div class="">
         @RenderBody()
         <hr />
-        <div class="container-fluid">
+        <div class="container">
             <footer>
                 <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
             </footer>
         </div>
 
     </div>
-
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/fontawesome/all.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 

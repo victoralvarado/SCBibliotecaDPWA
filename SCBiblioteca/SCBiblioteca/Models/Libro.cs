@@ -2,6 +2,7 @@ namespace SCBiblioteca.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class Libro
     {
@@ -13,10 +14,16 @@ namespace SCBiblioteca.Models
         }
 
         public int IdLibro { get; set; }
+
+        [Required(ErrorMessage = "el {0} es requerido.")]
         public string Titulo { get; set; }
+
+        [Required(ErrorMessage = "El {0} es requerido.")]
         public int Stock { get; set; }
         public byte Activo { get; set; }
+
         public int IdAutor { get; set; }
+
         public Nullable<int> IdCategoria { get; set; }
         public Nullable<int> IdEspecialidad { get; set; }
 

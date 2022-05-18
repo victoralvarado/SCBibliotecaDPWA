@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "CrearCuenta";
+    ViewBag.CrearCuenta = "active";
+}
+<style>
+    a {
+        text-decoration: none;
+    }
+
+    .login-page {
+        width: 100%;
+        height: 90vh;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .col-center {
+        float: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<div class="login-page bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-center">
+                <h3 class="mb-3">Crear Cuenta</h3>
+                <div class="bg-white shadow rounded">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-left h-100 py-5 px-5">
+                                @using (Html.BeginForm("CrearCuenta", "Home", FormMethod.Post, htmlAttributes: new { id = "formLogin" }))
+                                {
+                                    <div class="col-12">
+                                        <label>Nombre Completo<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="NombreCompleto" placeholder="Ingrese su Nombre Completo" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label>Fecha de Nacimiento<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="date" class="form-control" name="FechaNacimiento" placeholder="Ingrese su Fecha de Nacimiento" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label>Dirección<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <textarea class="form-control" name="Direccion" rows="2" maxlength="100"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label>Teléfono<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="Telefono" placeholder="Ingrese su Teléfono" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label>Correo Electrónico<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="email" class="form-control" name="Correoelectronico" placeholder="Ingrese su Correo Electronico" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label>Usuario<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="Usuario1" placeholder="Ingrese su Usuario" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label>Contraseña<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="Password" name="Password" placeholder="Ingrese su Contraseña" required>
+                                            <div class="input-group-append">
+                                                <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span> </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 my-2">
+                                        <span style="color:red;">@ViewBag.estadoRegistro</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary px-4 float-end mt-4">Crear Cuenta</button>
+                                        <button type="reset" class="btn btn-warning px-4 float-end mt-4">Limpiar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function mostrarPassword() {
+        var cambio = document.getElementById("Password");
+        if (cambio.type == "password") {
+            cambio.type = "text";
+            $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+        } else {
+            cambio.type = "password";
+            $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+        }
+    }
+</script>
+
