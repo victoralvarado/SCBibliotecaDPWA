@@ -46,10 +46,11 @@ namespace SCBiblioteca.Controllers
         // POST: Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdUsuario,NombreCompleto,FechaNacimiento,Direccion,CorreoElectronico,Usuario1,Password,IdRol")] Usuario usuario)
+        public ActionResult Create(Usuario usuario)
         {
             if (ModelState.IsValid)
             {
+                usuario.Password = Security.Encrypt(usuario.Password);
                 db.Usuario.Add(usuario);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -78,10 +79,11 @@ namespace SCBiblioteca.Controllers
         // POST: Usuarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdUsuario,NombreCompleto,FechaNacimiento,Direccion,CorreoElectronico,Usuario1,Password,IdRol")] Usuario usuario)
+        public ActionResult Edit(Usuario usuario)
         {
             if (ModelState.IsValid)
             {
+                usuario.Password = Security.Encrypt(usuario.Password);
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

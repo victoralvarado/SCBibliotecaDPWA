@@ -3,12 +3,17 @@
     ViewBag.Title = "Index";
     ViewBag.Inicio = "active";
 }
+<style>
+    body {
+        padding: 0 !important;
+    }
+</style>
 <section id="cover" class="d-flex align-items-center">
     <div class="container" data-aos="zoom-out" data-aos-delay="100">
         <h1>Bienvenido a <span>SCBiblioteca</span></h1>
-        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit: @System.Web.HttpContext.Current.Session["UserSesion"]</h2>
+        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit</h2>
         <div class="d-flex">
-            <a href="#" class="btn-get-started scrollto">Buscar Libros</a>
+            <a href='@Url.Action("ConsultarLibros", "Home")' class="btn-get-started scrollto">Consultar Libros</a>
         </div>
     </div>
 </section>

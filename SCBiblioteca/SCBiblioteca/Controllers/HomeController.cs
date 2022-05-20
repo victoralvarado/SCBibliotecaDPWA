@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+using System.Net;
 
 namespace SCBiblioteca.Controllers
 {
     public class HomeController : Controller
     {
+        private SCBibliotecaEntities db = new SCBibliotecaEntities();
         // GET: Home
         public ActionResult Index()
         {
@@ -19,6 +22,12 @@ namespace SCBiblioteca.Controllers
         public ActionResult Details(int id)
         {
             return View();
+        }
+
+        public ActionResult ConsultarLibros()
+        {
+            var libro = db.Libro.Include(l => l.Autor).Include(l => l.Categoria).Include(l => l.Especialidad);
+            return View(libro.ToList());
         }
 
         public ActionResult CerrarSesion()
@@ -36,8 +45,8 @@ namespace SCBiblioteca.Controllers
         [HttpPost]
         public ActionResult IniciarSesion(string usuario, string password)
         {
-            UsuarioDB bd = new UsuarioDB();
-            if (bd.Login(usuario, password))
+            ModelDB m = new ModelDB();
+            if (m.Login(usuario, password))
             {
                 ViewBag.estado = "";
                 return RedirectToAction("Index");
@@ -50,17 +59,24 @@ namespace SCBiblioteca.Controllers
         }
 
         [HttpPost]
-        public ActionResult CrearCuenta(Usuario u, string Telefono)
+        public ActionResult CrearCuenta(Usuario u, Cliente c)
         {
-            UsuarioDB bd = new UsuarioDB();
-            if (bd.CrearCuenta(u, Telefono))
+            ModelDB m = new ModelDB();
+            if (ModelState.IsValid)
             {
-                ViewBag.estadoRegistro = "";
-                return View();
+                if (m.CrearCuenta(u, c))
+                {
+                    ViewBag.estadoRegistro = "";
+                    return View();
+                }
+                else
+                {
+                    ViewBag.estadoRegistro = "Ocurrio un error";
+                }
             }
             else
             {
-                ViewBag.estadoRegistro = "Ocurrio un error";
+                ViewBag.estadoRegistro = "Los campos son requeridos";
             }
             return View();
         }
