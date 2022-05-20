@@ -63,6 +63,52 @@ namespace SCBiblioteca.Controllers
             return View(solicitud);
         }
 
+        public ActionResult Solicitud(int? id)
+        {
+            ModelDB m = new ModelDB();
+            ViewBag.TituloLibro = m.TituloLibro(id);
+            System.Web.HttpContext.Current.Session["IdLibro"] = id;
+            ViewBag.display = "none";
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Solicitud(Solicitud solicitud)
+        {
+            ViewBag.display = "none";
+            int id = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdLibro"]);
+            DateTime thisDay = DateTime.Today;
+            ModelDB m = new ModelDB();
+            if (ModelState.IsValid)
+            {
+                if (m.StockLibros(solicitud.IdLibro) >= solicitud.CantidadLibros)
+                {
+                    solicitud.IdLibro = id;
+                    solicitud.Activo = 1;
+                    solicitud.FechaSolicitud = thisDay;
+                    db.Solicitud.Add(solicitud);
+                    db.SaveChanges();
+                    return RedirectToAction("Solicitud");
+                }
+                else
+                {
+                    ViewBag.Solicitud = "No hay Suficientes Libros";
+                    ViewBag.TituloLibro = m.TituloLibro(id);
+                    ViewBag.display = "normal";
+                    return View(solicitud);
+
+                }
+            }
+            else
+            {
+                ViewBag.Solicitud = "No hay Suficientes Libros";
+                ViewBag.TituloLibro = m.TituloLibro(id);
+                ViewBag.display = "normal";
+                return View(solicitud);
+            }
+        }
+
         // GET: Solicitudes/Edit/5
         public ActionResult Edit(int? id)
         {

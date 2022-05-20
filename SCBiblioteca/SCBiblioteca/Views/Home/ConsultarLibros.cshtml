@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<SCBiblioteca.Models.Libro>
-
 @{
-    ViewBag.Title = "Index";
-    ViewBag.Libros = "active";
-    ViewBag.Mantenimiento = "active";
+    ViewBag.Title = "ConsultarLibros";
+    ViewBag.ConsultarLibros = "active";
 }
+
 <script>
     $(document).ready(function () {
         $.noConflict();
@@ -15,12 +14,16 @@
         });
     });
 </script>
+<style>
+    .disabled {
+        color: currentColor;
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+    }
+</style>
 <div class="container my-5" style="padding:16px;">
-    <h2>Index</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    <h2>Consultar Libros</h2>
     <table class="display table table-bordered table-responsive-lg" id="tablelibros" width="100%">
         <thead>
             <tr>
@@ -31,9 +34,6 @@
                     @Html.DisplayNameFor(model => model.Stock)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Activo)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Autor.Autor1)
                 </th>
                 <th>
@@ -42,8 +42,12 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Especialidad.Especialidad1)
                 </th>
-                <th>Acción</th>
+                @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
+                {
+                    <th>Acción</th>
+                }
             </tr>
+
         </thead>
         <tbody>
             @foreach (var item in Model)
@@ -56,9 +60,6 @@
                         @Html.DisplayFor(modelItem => item.Stock)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Activo)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Autor.Autor1)
                     </td>
                     <td>
@@ -67,14 +68,28 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Especialidad.Especialidad1)
                     </td>
-                    <td>
-                        @Html.ActionLink("Editar", "Edit", new { id = item.IdLibro }, new { @class = "my-1 btn btn-success" })
-                        @Html.ActionLink("Detalles", "Details", new { id = item.IdLibro }, new { @class = "my-1 btn btn-info" })
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdLibro }, new { @class = "my-1 btn btn-danger" })
-                    </td>
+                    @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
+                    {
+                        var stock = (@Html.DisplayFor(modelItem => item.Stock));
+                        <td>
+                            @if (stock.ToString() != "0")
+                            {
+                                @Html.ActionLink("Solicitud", "Solicitud", "Solicitudes", new { id = item.IdLibro }, new { @class = "my-1 btn btn-success " })
+                            }
+                            else
+                            {
+                                <div class="alert alert-info py-0" role="alert">
+                                    <p class="text-center py-0 my-0">No Disponible</p>
+                                </div>
+                            }
+
+                        </td>
+                    }
+
                 </tr>
             }
         </tbody>
     </table>
 </div>
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+

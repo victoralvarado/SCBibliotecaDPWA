@@ -45,7 +45,7 @@
                             <a href='@Url.Action("Index", "Home")' class="nav-link"><i class="fas fa-home"></i> Inicio</a>
                         </li>
                         <li class="nav-item @ViewBag.ConsultarLibros">
-                            <a href='@Url.Action("Index", "Home")' class="nav-link"><i class="fas fa-search"></i> Consultar Libros</a>
+                            <a href='@Url.Action("ConsultarLibros", "Home")' class="nav-link"><i class="fas fa-search"></i> Consultar Libros</a>
                         </li>
                         @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
                         {
@@ -89,8 +89,13 @@
 
                         @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
                         {
-                            <li class="nav-item">
-                                <a href='@Url.Action("CerrarSesion", "Home")' class="nav-link">Cerrar Sesión</a>
+                            <li class="dropdown">
+                                <a class=" dropdown-toggle nav-link" style="cursor:pointer" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @System.Web.HttpContext.Current.Session["UserEmail"]
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <a href='@Url.Action("CerrarSesion", "Home")' class="dropdown-item">Cerrar Sesión</a>
+                                </div>
                             </li>
                         }
                         else
@@ -109,7 +114,7 @@
             </div>
         </nav>
     </header>
-    <div class="">
+    <div>
         @RenderBody()
         <hr />
         <div class="container">
