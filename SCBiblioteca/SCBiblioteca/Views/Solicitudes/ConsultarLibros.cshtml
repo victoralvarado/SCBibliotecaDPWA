@@ -52,41 +52,45 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Titulo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Stock)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Autor.Autor1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Categoria.Categoria1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Especialidad.Especialidad1)
-                    </td>
-                    @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
-                    {
-                        var stock = (@Html.DisplayFor(modelItem => item.Stock));
+                var activo = (@Html.DisplayFor(modelItem => item.Activo));
+                if (activo.ToString() != "0")
+                {
+                    <tr>
                         <td>
-                            @if (stock.ToString() != "0")
-                            {
-                                @Html.ActionLink("Solicitud", "Solicitud", "Solicitudes", new { id = item.IdLibro }, new { @class = "my-1 btn btn-success " })
-                            }
-                            else
-                            {
-                                <div class="alert alert-info py-0" role="alert">
-                                    <p class="text-center py-0 my-0">No Disponible</p>
-                                </div>
-                            }
-
+                            @Html.DisplayFor(modelItem => item.Titulo)
                         </td>
-                    }
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Autor.Autor1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Categoria.Categoria1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Especialidad.Especialidad1)
+                        </td>
+                        @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
+                        {
+                            var stock = (@Html.DisplayFor(modelItem => item.Stock));
+                            <td>
+                                @if (stock.ToString() != "0")
+                                {
+                                    @Html.ActionLink("Solicitud", "Solicitud", "Solicitudes", new { id = item.IdLibro }, new { @class = "my-1 btn btn-success " })
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info py-0" role="alert">
+                                        <p class="text-center py-0 my-0">No Disponible</p>
+                                    </div>
+                                }
 
-                </tr>
+                            </td>
+                        }
+
+                    </tr>
+                }
             }
         </tbody>
     </table>

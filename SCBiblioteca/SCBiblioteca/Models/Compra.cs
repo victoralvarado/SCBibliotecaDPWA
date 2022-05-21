@@ -8,8 +8,7 @@ namespace SCBiblioteca.Models
     {
         public int IdCompra { get; set; }
 
-        [Display(Name = "Correlatvo")]
-        [Required(ErrorMessage = "La {0} es requerida.")]
+        [Display(Name = "Correlativo")]
         public string Correlativo { get; set; }
 
         [Required(ErrorMessage = "La {0} es requerida.")]

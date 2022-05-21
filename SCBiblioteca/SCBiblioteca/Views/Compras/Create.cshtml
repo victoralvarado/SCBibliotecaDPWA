@@ -2,15 +2,28 @@
 
 @{
     ViewBag.Title = "Create";
+    Random r = new Random();
+    DateTime thisDay = DateTime.Now;
+    string d = thisDay.Day.ToString();
+    string m = thisDay.Month.ToString();
+    string a = thisDay.Year.ToString();
+    string h = thisDay.Hour.ToString();
+    string mi = thisDay.Minute.ToString();
+    string s = thisDay.Second.ToString();
+    string ms = thisDay.Millisecond.ToString();
+    string random = r.Next(1, 1000).ToString();
+    string dd = thisDay.ToString("dddd");
+    char ddf = dd.ToUpper().FirstOrDefault();
+    string correlativo = "F" + ddf + d + m + a + "H" + h + mi + s + ms + "R-" + random;
 }
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Compra</h4>
         <hr />
@@ -18,7 +31,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Correlativo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Correlativo, new { htmlAttributes = new { @class = "form-control" } })
+                <input type="text" value=@correlativo class="form-control" name="Correlativo" readonly />
                 @Html.ValidationMessageFor(model => model.Correlativo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -42,7 +55,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FechaCompra, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaCompra, new { htmlAttributes = new { @class = "form-control" } })
+                <input type="datetime-local" class="form-control" name="FechaCompra" />
                 @Html.ValidationMessageFor(model => model.FechaCompra, "", new { @class = "text-danger" })
             </div>
         </div>

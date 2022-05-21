@@ -24,12 +24,6 @@ namespace SCBiblioteca.Controllers
             return View();
         }
 
-        public ActionResult ConsultarLibros()
-        {
-            var libro = db.Libro.Include(l => l.Autor).Include(l => l.Categoria).Include(l => l.Especialidad);
-            return View(libro.ToList());
-        }
-
         public ActionResult CerrarSesion()
         {
             Session.Abandon();

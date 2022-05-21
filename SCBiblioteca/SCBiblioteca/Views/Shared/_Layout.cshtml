@@ -45,7 +45,7 @@
                             <a href='@Url.Action("Index", "Home")' class="nav-link"><i class="fas fa-home"></i> Inicio</a>
                         </li>
                         <li class="nav-item @ViewBag.ConsultarLibros">
-                            <a href='@Url.Action("ConsultarLibros", "Home")' class="nav-link"><i class="fas fa-search"></i> Consultar Libros</a>
+                            <a href='@Url.Action("ConsultarLibros", "Solicitudes")' class="nav-link"><i class="fas fa-search"></i> Consultar Libros</a>
                         </li>
                         @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
                         {

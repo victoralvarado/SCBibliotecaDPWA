@@ -676,8 +676,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\IniciarSesion.cshtml" />
     <Content Include="Views\Home\CrearCuenta.cshtml" />
-    <Content Include="Views\Home\ConsultarLibros.cshtml" />
     <Content Include="Views\Solicitudes\Solicitud.cshtml" />
+    <Content Include="Views\Solicitudes\ConsultarLibros.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

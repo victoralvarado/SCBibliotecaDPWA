@@ -21,6 +21,12 @@ namespace SCBiblioteca.Controllers
             return View(solicitud.ToList());
         }
 
+        public ActionResult ConsultarLibros()
+        {
+            var libro = db.Libro.Include(l => l.Autor).Include(l => l.Categoria).Include(l => l.Especialidad);
+            return View(libro.ToList());
+        }
+
         // GET: Solicitudes/Details/5
         public ActionResult Details(int? id)
         {
@@ -78,31 +84,51 @@ namespace SCBiblioteca.Controllers
         {
             ViewBag.display = "none";
             int id = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdLibro"]);
-            DateTime thisDay = DateTime.Today;
+            DateTime thisDay = DateTime.Now;
             ModelDB m = new ModelDB();
             if (ModelState.IsValid)
             {
-                if (m.StockLibros(solicitud.IdLibro) >= solicitud.CantidadLibros)
+                if (m.CantidadLibrosU((int)solicitud.IdUsuario) != 3)
                 {
-                    solicitud.IdLibro = id;
-                    solicitud.Activo = 1;
-                    solicitud.FechaSolicitud = thisDay;
-                    db.Solicitud.Add(solicitud);
-                    db.SaveChanges();
-                    return RedirectToAction("Solicitud");
+                    if (m.StockLibros(solicitud.IdLibro) >= solicitud.CantidadLibros)
+                    {
+                        if (m.RestarStock(solicitud.CantidadLibros, solicitud.IdLibro))
+                        {
+                            solicitud.IdLibro = id;
+                            solicitud.Activo = 1;
+                            solicitud.FechaSolicitud = thisDay;
+                            db.Solicitud.Add(solicitud);
+                            db.SaveChanges();
+                            return RedirectToAction("ConsultarLibros");
+                        }
+                        else
+                        {
+                            return RedirectToAction("ConsultarLibros");
+                        }
+
+
+                    }
+                    else
+                    {
+                        ViewBag.Solicitud = "No hay Suficientes Libros";
+                        ViewBag.TituloLibro = m.TituloLibro(id);
+                        ViewBag.display = "normal";
+                        return View(solicitud);
+
+                    }
                 }
                 else
                 {
-                    ViewBag.Solicitud = "No hay Suficientes Libros";
+                    ViewBag.Solicitud = "Ya exedio el Maximo de Libros prestados";
                     ViewBag.TituloLibro = m.TituloLibro(id);
                     ViewBag.display = "normal";
                     return View(solicitud);
-
                 }
+
             }
             else
             {
-                ViewBag.Solicitud = "No hay Suficientes Libros";
+                ViewBag.Solicitud = "Solicitud no procesada, comuniquese con atencion al cliente";
                 ViewBag.TituloLibro = m.TituloLibro(id);
                 ViewBag.display = "normal";
                 return View(solicitud);
@@ -164,10 +190,19 @@ namespace SCBiblioteca.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            ModelDB m = new ModelDB();
             Solicitud solicitud = db.Solicitud.Find(id);
-            db.Solicitud.Remove(solicitud);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (m.SumarStock(solicitud.CantidadLibros, solicitud.IdLibro))
+            {
+                db.Solicitud.Remove(solicitud);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
         }
 
         protected override void Dispose(bool disposing)

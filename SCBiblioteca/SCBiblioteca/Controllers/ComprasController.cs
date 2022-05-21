@@ -49,11 +49,21 @@ namespace SCBiblioteca.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdCompra,Correlativo,Cantidad,Subtotal,TotalCompra,FechaCompra,IdLibro,IdEditorial")] Compra compra)
         {
+            ModelDB m = new ModelDB();
             if (ModelState.IsValid)
             {
-                db.Compra.Add(compra);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (m.SumarStock(compra.Cantidad, compra.IdLibro))
+                {
+                    db.Compra.Add(compra);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(compra);
+                }
+
             }
 
             ViewBag.IdEditorial = new SelectList(db.Editorial, "IdEditorial", "Editorial1", compra.IdEditorial);

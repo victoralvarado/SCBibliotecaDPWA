@@ -11,7 +11,7 @@ namespace SCBiblioteca.Models
         private SqlConnection con;
         private void Connection()
         {
-            string constring = ConfigurationManager.ConnectionStrings["SCBiblioteca"].ToString();
+            string constring = ConfigurationManager.ConnectionStrings["SCBibliotecaEntities"].ToString().Split('"')[1];
             con = new SqlConnection(constring);
         }
 
@@ -156,6 +156,7 @@ namespace SCBiblioteca.Models
             return stock;
         }
 
+
         //Titulo Libro
         public string TituloLibro(int? idLibro)
         {
@@ -184,6 +185,95 @@ namespace SCBiblioteca.Models
             }
             con.Close();
             return titulo;
+        }
+
+
+        //Sumar Stock
+        public bool SumarStock(int cantidad, int idLibro)
+        {
+            int stock = StockLibros(idLibro);
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("update Libro set Stock=(@stock+@cantidad) where IdLibro=@id;", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter es = new SqlParameter("@stock", SqlDbType.Int, int.MaxValue);
+            SqlParameter ca = new SqlParameter("@cantidad", SqlDbType.Int, int.MaxValue);
+            SqlParameter id = new SqlParameter("@id", SqlDbType.Int, int.MaxValue);
+            es.Value = stock;
+            ca.Value = cantidad;
+            id.Value = idLibro;
+
+            cmd.Parameters.Add(es);
+            cmd.Parameters.Add(ca);
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            int res = cmd.ExecuteNonQuery();
+            con.Close();
+            if (res >= 1)
+                return true;
+            else
+                return false;
+        }
+
+
+        //Restar Stock
+        public bool RestarStock(int cantidad, int idLibro)
+        {
+            int stock = StockLibros(idLibro);
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("update Libro set Stock=(@stock-@cantidad) where IdLibro=@id;", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter es = new SqlParameter("@stock", SqlDbType.Int, int.MaxValue);
+            SqlParameter ca = new SqlParameter("@cantidad", SqlDbType.Int, int.MaxValue);
+            SqlParameter id = new SqlParameter("@id", SqlDbType.Int, int.MaxValue);
+            es.Value = stock;
+            ca.Value = cantidad;
+            id.Value = idLibro;
+
+            cmd.Parameters.Add(es);
+            cmd.Parameters.Add(ca);
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            int res = cmd.ExecuteNonQuery();
+            con.Close();
+            if (res >= 1)
+                return true;
+            else
+                return false;
+        }
+
+
+        //Cantidad Libros Segun el Usuario
+        public int CantidadLibrosU(int idUsuario)
+        {
+            Connection();
+            con.Open();
+            int cantidad = 0;
+            SqlCommand cmd = new SqlCommand("select case when SUM(CantidadLibros) IS NULL then 0 else SUM(CantidadLibros) end as CantidadLibros from Solicitud where IdUsuario=@idUsuario", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter id = new SqlParameter("@idUsuario", SqlDbType.Int, int.MaxValue);
+            id.Value = idUsuario;
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                while (rdr.Read())
+                {
+                    cantidad = (int)rdr["CantidadLibros"];
+                    return cantidad;
+                }
+            }
+            else
+            {
+                return cantidad;
+            }
+            con.Close();
+            return cantidad;
         }
 
     }
