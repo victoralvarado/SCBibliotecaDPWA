@@ -89,12 +89,14 @@
 
                         @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
                         {
+                            String correo = (String)(System.Web.HttpContext.Current.Session["UserEmail"]);
                             <li class="dropdown">
                                 <a class=" dropdown-toggle nav-link" style="cursor:pointer" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @System.Web.HttpContext.Current.Session["UserEmail"]
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <a href='@Url.Action("CerrarSesion", "Home")' class="dropdown-item">Cerrar Sesión</a>
+                                    <a href='@Url.Action("CerrarSesion", "Home")' class="dropdown-item"><i class="fas fa-sign-out-alt"></i> | Cerrar Sesión</a>
+                                    <a href='@Url.Action("actualizarCuenta", "Home",new {correo=correo })' class="dropdown-item"><i class="fas fa-user-edit"></i> | Actualizar Datos</a>
                                 </div>
                             </li>
                         }

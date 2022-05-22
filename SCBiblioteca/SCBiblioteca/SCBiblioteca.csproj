@@ -678,6 +678,7 @@
     <Content Include="Views\Home\CrearCuenta.cshtml" />
     <Content Include="Views\Solicitudes\Solicitud.cshtml" />
     <Content Include="Views\Solicitudes\ConsultarLibros.cshtml" />
+    <Content Include="Views\Home\ActualizarCuenta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

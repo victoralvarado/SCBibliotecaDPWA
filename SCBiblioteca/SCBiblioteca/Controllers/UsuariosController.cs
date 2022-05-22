@@ -81,12 +81,23 @@ namespace SCBiblioteca.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Usuario usuario)
         {
+            ModelDB m = new ModelDB();
             if (ModelState.IsValid)
             {
-                usuario.Password = Security.Encrypt(usuario.Password);
-                db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (m.CompararPassword(usuario.IdUsuario, usuario.Password) == usuario.Password)
+                {
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    usuario.Password = Security.Encrypt(usuario.Password);
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
             }
             ViewBag.IdRol = new SelectList(db.Rol, "IdRol", "Rol1", usuario.IdRol);
             return View(usuario);

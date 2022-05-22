@@ -61,7 +61,43 @@ namespace SCBiblioteca.Controllers
                 if (m.CrearCuenta(u, c))
                 {
                     ViewBag.estadoRegistro = "";
-                    return View();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.estadoRegistro = "Ocurrio un error";
+                }
+            }
+            else
+            {
+                ViewBag.estadoRegistro = "Los campos son requeridos";
+            }
+            return View();
+        }
+
+        public ActionResult ActualizarCuenta(string correo)
+        {
+            ModelDB m = new ModelDB();
+            if (m.MostrarDatosUsuario(correo))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ActualizarCuenta(Usuario u, Cliente c)
+        {
+            ModelDB m = new ModelDB();
+            if (ModelState.IsValid)
+            {
+                if (m.ActualizarUsuarioCliente(u, c, c.IdCliente))
+                {
+                    ViewBag.estadoRegistro = "";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
