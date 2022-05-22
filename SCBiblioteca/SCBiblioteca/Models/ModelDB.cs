@@ -38,7 +38,7 @@ namespace SCBiblioteca.Models
                     HttpContext.Current.Session["UserSesion"] = rdr["Rol"].ToString();
                     HttpContext.Current.Session["UserEmail"] = rdr["CorreoElectronico"].ToString();
                     HttpContext.Current.Session["UserId"] = rdr["IdUsuario"].ToString();
-                    HttpContext.Current.Session["ClienteId"] = IdCliente(rdr["CorreoElectronico"].ToString());
+                    HttpContext.Current.Session["ClienteId"] = IdCliente(rdr["CorreoElectronico"].ToString()).ToString();
                     return true;
                 }
             }
@@ -48,6 +48,70 @@ namespace SCBiblioteca.Models
             }
             con.Close();
             return false;
+        }
+
+
+
+        //Mostrar Datos Usuario
+        public bool MostrarDatosUsuario(string correo)
+        {
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("select Usuario.NombreCompleto,Usuario.Usuario, Usuario.FechaNacimiento,Usuario.Direccion,Usuario.Password,Cliente.Telefono from Usuario inner join Cliente on Usuario.CorreoElectronico=Cliente.CorreoElectronico where Usuario.CorreoElectronico=@CorreoElectronico", con);
+            cmd.CommandType = CommandType.Text;
+            SqlParameter cor = new SqlParameter("@correoElectronico", SqlDbType.NVarChar, int.MaxValue);
+            cor.Value = correo;
+            cmd.Parameters.Add(cor);
+            cmd.Prepare();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                while (rdr.Read())
+                {
+                    HttpContext.Current.Session["DataNombreCompleto"] = rdr["NombreCompleto"].ToString();
+                    HttpContext.Current.Session["DataUsuario"] = rdr["Usuario"].ToString();
+                    HttpContext.Current.Session["DataFechaNacimiento"] = rdr["FechaNacimiento"].ToString();
+                    HttpContext.Current.Session["DataDirecion"] = rdr["Direccion"].ToString();
+                    HttpContext.Current.Session["DataPassword"] = Security.Decrypt(rdr["Password"].ToString());
+                    HttpContext.Current.Session["DataTelefono"] = rdr["Telefono"].ToString();
+
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+            con.Close();
+            return false;
+        }
+
+
+
+        //Actualizar Usuario Cliente 
+        public bool ActualizarUsuarioCliente(Usuario u, Cliente c, int idCliente)
+        {
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("actualizarUsuarioCliente", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@NombreCompleto", u.NombreCompleto);
+            cmd.Parameters.AddWithValue("@FechaNacimiento", u.FechaNacimiento);
+            cmd.Parameters.AddWithValue("@Direccion", u.Direccion);
+            cmd.Parameters.AddWithValue("@CorreoElectronicoN", u.CorreoElectronico);
+            cmd.Parameters.AddWithValue("@Usuario", u.Usuario1);
+            cmd.Parameters.AddWithValue("@Password", Security.Encrypt(u.Password));
+            cmd.Parameters.AddWithValue("@IdRol", Rol());
+            cmd.Parameters.AddWithValue("@Telefono", c.Telefono);
+            cmd.Parameters.AddWithValue("@Id", u.IdUsuario);
+            cmd.Parameters.AddWithValue("@IdCliente", idCliente);
+            int res = cmd.ExecuteNonQuery();
+            con.Close();
+            if (res >= 1)
+                return true;
+            else
+                return false;
         }
 
 
@@ -274,6 +338,72 @@ namespace SCBiblioteca.Models
             }
             con.Close();
             return cantidad;
+        }
+
+        //Comparar contraseñas al editar un usuario
+        public string CompararPassword(int idUsuario, string password)
+        {
+            Connection();
+            con.Open();
+            string passw = "";
+            SqlCommand cmd = new SqlCommand("select Password from Usuario where IdUsuario = @idUsuario and Password = @password", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter id = new SqlParameter("@idUsuario", SqlDbType.Int, int.MaxValue);
+            SqlParameter pass = new SqlParameter("@password", SqlDbType.NVarChar, int.MaxValue);
+
+            id.Value = idUsuario;
+            pass.Value = password;
+
+            cmd.Parameters.Add(id);
+            cmd.Parameters.Add(pass);
+            cmd.Prepare();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                while (rdr.Read())
+                {
+                    passw = rdr["Password"].ToString();
+                    return passw;
+                }
+            }
+            else
+            {
+                return passw;
+            }
+            con.Close();
+            return passw;
+        }
+
+        public string ObtenerCorreo(int idUsuario)
+        {
+            Connection();
+            con.Open();
+            string correo = "";
+            SqlCommand cmd = new SqlCommand("select CoreoElectronico from Usuario where IdUsuario = @idUsuario", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter id = new SqlParameter("@idUsuario", SqlDbType.Int, int.MaxValue);
+
+            id.Value = idUsuario;
+
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                while (rdr.Read())
+                {
+                    correo = rdr["CoreoElectronico"].ToString();
+                    return correo;
+                }
+            }
+            else
+            {
+                return correo;
+            }
+            con.Close();
+            return correo;
         }
 
     }
