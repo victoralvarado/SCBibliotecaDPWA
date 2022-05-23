@@ -2,63 +2,84 @@
 
 @{
     ViewBag.Title = "Create";
+    string nombreCompleto = (string)(System.Web.HttpContext.Current.Session["PrestamoNombreCompleto"]);
+    string cantidadLibros = (string)(System.Web.HttpContext.Current.Session["PrestamoCantidadLibros"]);
+    string idUsuario = (string)(System.Web.HttpContext.Current.Session["PrestamoIdUsuario"]);
+    string idLibro = (string)(System.Web.HttpContext.Current.Session["PrestamoIdLibro"]);
+    string tituloLibro = (string)(System.Web.HttpContext.Current.Session["PrestamoTitulo"]);
+    string fechaSolicitud = (string)(System.Web.HttpContext.Current.Session["PrestamoFechaSolicitud"]);
+    string[] t = System.Text.RegularExpressions.Regex.Replace(tituloLibro.ToUpper().Normalize(System.Text.NormalizationForm.FormD), @"[^a-zA-z0-9 ]+", "").Split(' ');
+    string tt = "";
+    foreach (var str in t)
+    {
+        tt += str;
+    }
+
+    string comprobante = "U" + idUsuario + "L" + idLibro + "T" + tt + "-S-" + ViewBag.IdSolicitud;
 }
 
-<h2>Create</h2>
+<div class="container my-5" style="padding:16px;">
+    <h2>Create</h2>
 
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Prestamo</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaPrestamo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaPrestamo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaPrestamo, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <h4>Prestamo</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechaPrestamo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FechaPrestamo, new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
+                    @Html.ValidationMessageFor(model => model.FechaPrestamo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Fecha de Vencimiento</label>
+                <div class="col-md-10">
+                    <input type="datetime-local" name="FechaVencimiento" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Activo, new { htmlAttributes = new { @class = "form-control", id = "activo", min = "0", max = "1" } })
+                    @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control", id = "cantidad" } })
+                    @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <input type="hidden" name="IdSolicitud" value='@ViewBag.IdSolicitud' />
+            <input type="hidden" name="IdUsuario" value='@idUsuario' />
+            <input type="hidden" name="Comprobante1" value='@comprobante' />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
             </div>
         </div>
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Activo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdSolicitud, "IdSolicitud", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("IdSolicitud", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IdSolicitud, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+    <div>
+        @Html.ActionLink("Regresar a Soliciudes", "Index", "Solicitudes")
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        $("#cantidad").val('@Html.Raw(cantidadLibros)');
+        $("#activo").val("1");
+});
+    </script>
 </div>
-
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

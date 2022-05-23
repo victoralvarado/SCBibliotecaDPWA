@@ -8,7 +8,7 @@
 <script>
     $(document).ready(function () {
         $.noConflict();
-        var table = $('#tablelibros').dataTable({
+        var table = $('#tablalibros').dataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
             }
@@ -21,7 +21,7 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-    <table class="display table table-bordered table-responsive-lg" id="tablelibros" width="100%">
+    <table class="display table table-bordered table-responsive-lg" id="tablalibros" width="100%">
         <thead>
             <tr>
                 <th>
