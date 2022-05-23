@@ -406,6 +406,59 @@ namespace SCBiblioteca.Models
             return correo;
         }
 
+        public bool DatosPrestamo(int? idSolicitud)
+        {
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("select Usuario.NombreCompleto, Solicitud.CantidadLibros, Usuario.IdUsuario,Libro.Titulo,Libro.IdLibro,Solicitud.FechaSolicitud from Usuario inner join Solicitud on Usuario.IdUsuario = Solicitud.IdUsuario inner join Libro on Solicitud.IdLibro=Libro.IdLibro where Solicitud.IdSolicitud = @idSolicitud;", con);
+            cmd.CommandType = CommandType.Text;
+            SqlParameter id = new SqlParameter("@idSolicitud", SqlDbType.Int, int.MaxValue);
+            id.Value = idSolicitud;
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                while (rdr.Read())
+                {
+                    HttpContext.Current.Session["PrestamoNombreCompleto"] = rdr["NombreCompleto"].ToString();
+                    HttpContext.Current.Session["PrestamoCantidadLibros"] = rdr["CantidadLibros"].ToString();
+                    HttpContext.Current.Session["PrestamoIdUsuario"] = rdr["IdUsuario"].ToString();
+                    HttpContext.Current.Session["PrestamoTitulo"] = rdr["Titulo"].ToString();
+                    HttpContext.Current.Session["PrestamoIdLibro"] = rdr["IdLibro"].ToString();
+                    HttpContext.Current.Session["PrestamoFechaSolicitud"] = rdr["FechaSolicitud"].ToString();
+
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+            con.Close();
+            return false;
+        }
+
+        public bool CrearComprobante(Comprobante c)
+        {
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("crearComprobante", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Comprobante", c.Comprobante1);
+            cmd.Parameters.AddWithValue("@Activo", c.Activo);
+            cmd.Parameters.AddWithValue("@FechaCreacion", c.FechaCreacion);
+            cmd.Parameters.AddWithValue("@FechaVencimiento", c.FechaVencimiento);
+            cmd.Parameters.AddWithValue("@IdUsuario", c.IdUsuario);
+            int res = cmd.ExecuteNonQuery();
+            con.Close();
+            if (res >= 1)
+                return true;
+            else
+                return false;
+        }
+
     }
 }
 

@@ -37,22 +37,44 @@ namespace SCBiblioteca.Controllers
         }
 
         // GET: Prestamos/Create
-        public ActionResult Create()
+        public ActionResult Create(int? idSolicitud)
         {
-            ViewBag.IdSolicitud = new SelectList(db.Solicitud, "IdSolicitud", "IdSolicitud");
+            ModelDB m = new ModelDB();
+            ViewBag.IdSolicitud = idSolicitud;
+            if (m.DatosPrestamo(idSolicitud))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult Comprobante()
+        {
             return View();
         }
 
         // POST: Prestamos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdPrestamo,FechaPrestamo,Activo,Cantidad,IdSolicitud")] Prestamo prestamo)
+        public ActionResult Create(Prestamo prestamo, Comprobante c)
         {
+            ModelDB m = new ModelDB();
+            c.Activo = prestamo.Activo;
+            c.FechaCreacion = prestamo.FechaPrestamo;
             if (ModelState.IsValid)
             {
-                db.Prestamo.Add(prestamo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (m.CrearComprobante(c))
+                {
+                    db.Prestamo.Add(prestamo);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
             }
 
             ViewBag.IdSolicitud = new SelectList(db.Solicitud, "IdSolicitud", "IdSolicitud", prestamo.IdSolicitud);

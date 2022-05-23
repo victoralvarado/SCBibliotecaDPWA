@@ -2,62 +2,90 @@
 
 @{
     ViewBag.Title = "Index";
+    ViewBag.PrestamosM = "active";
+    ViewBag.Solicitudes = "active";
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
 }
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        var table = $('#tablasolicitudes').dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            }
+        });
+    });
+</script>
+<div class="container my-5" style="padding:16px;">
+    <h2>Solicitudes</h2>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaSolicitud)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CantidadLibros)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Activo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cliente.NombreCompleto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Libro.Titulo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaSolicitud)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CantidadLibros)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Activo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cliente.NombreCompleto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Libro.Titulo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdSolicitud }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdSolicitud }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdSolicitud })
-        </td>
-    </tr>
-}
-
-</table>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="display table table-bordered table-responsive-lg" id="tablasolicitudes" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaSolicitud)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CantidadLibros)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Activo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Libro.Titulo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
+                </th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaSolicitud)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CantidadLibros)
+                    </td>
+                    @if ((@Html.DisplayFor(modelItem => item.Activo)).ToString() == "0")
+                    {
+                        <td class="bg-warning">
+                            No
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="bg-info">
+                            Si
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Libro.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
+                    </td>
+                    <td>
+                        @if (sesion.Equals("Administrador"))
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success" })
+                            @Html.ActionLink("Details", "Details", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-danger" })
+                        }
+                        @if (sesion.Equals("Administrador") || sesion.Equals("Bibliotecario"))
+                        {
+                            @Html.ActionLink("Prestar", "Create", "Prestamos", new { idSolicitud = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success " })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
