@@ -68,11 +68,11 @@ namespace SCBiblioteca.Controllers
             c.FechaCreacion = prestamo.FechaPrestamo;
             if (ModelState.IsValid)
             {
-                if (m.CrearComprobante(c))
+                if (m.CrearComprobante(c) && m.SolicitudDes(prestamo.IdSolicitud))
                 {
                     db.Prestamo.Add(prestamo);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Solicitudes");
                 }
 
             }

@@ -32,9 +32,6 @@
                     @Html.DisplayNameFor(model => model.CantidadLibros)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Activo)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Libro.Titulo)
                 </th>
                 <th>
@@ -46,44 +43,39 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaSolicitud)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CantidadLibros)
-                    </td>
-                    @if ((@Html.DisplayFor(modelItem => item.Activo)).ToString() == "0")
-                    {
-                        <td class="bg-warning">
-                            No
+                if ((@Html.DisplayFor(modelItem => item.Activo)).ToString() == "1")
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaSolicitud)
                         </td>
-                    }
-                    else
-                    {
-                        <td class="bg-info">
-                            Si
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CantidadLibros)
                         </td>
-                    }
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Libro.Titulo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
-                    </td>
-                    <td>
-                        @if (sesion.Equals("Administrador"))
-                        {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success" })
-                            @Html.ActionLink("Details", "Details", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-warning" })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-danger" })
-                        }
-                        @if (sesion.Equals("Administrador") || sesion.Equals("Bibliotecario"))
-                        {
-                            @Html.ActionLink("Prestar", "Create", "Prestamos", new { idSolicitud = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success " })
-                        }
-                    </td>
-                </tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Libro.Titulo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
+                        </td>
+                        <td>
+                            @if (sesion.Equals("Administrador"))
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success" });
+                                @Html.ActionLink("Details", "Details", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-warning" });
+                                @Html.ActionLink("Delete", "Delete", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-danger" });
+                            }
+                            @if (sesion.Equals("Administrador") || sesion.Equals("Bibliotecario"))
+                            {
+
+                                @Html.ActionLink("Prestar", "Create", "Prestamos", new { idSolicitud = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success " })
+
+                            }
+                        </td>
+                    </tr>
+                }
+
             }
         </tbody>
     </table>

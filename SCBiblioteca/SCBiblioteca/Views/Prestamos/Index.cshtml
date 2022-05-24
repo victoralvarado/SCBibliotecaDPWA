@@ -26,9 +26,6 @@
                     @Html.DisplayNameFor(model => model.FechaPrestamo)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Activo)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Cantidad)
                 </th>
                 <th>
@@ -40,25 +37,26 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaPrestamo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Activo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cantidad)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Solicitud.IdSolicitud)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.IdPrestamo }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.IdPrestamo }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.IdPrestamo })
-                    </td>
-                </tr>
+                if ((@Html.DisplayFor(modelItem => item.Activo)).ToString() == "1")
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaPrestamo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cantidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Solicitud.IdSolicitud)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.IdPrestamo }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.IdPrestamo }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.IdPrestamo }) |
+                            @Html.ActionLink("Devolucion", "Create", "Devoluciones", new { id = item.IdPrestamo, idSolicitud = item.IdSolicitud, cantidad = item.Cantidad }, new { @class = "my-1 p-2 btn btn-success " })
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>

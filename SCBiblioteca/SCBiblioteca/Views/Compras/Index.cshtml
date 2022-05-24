@@ -3,67 +3,82 @@
 @{
     ViewBag.Title = "Index";
 }
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        var table = $('#tablacompras').dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            }
+        });
+    });
+</script>
+<div class="container my-5" style="padding:16px;">
+    <h2>Compras</h2>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Correlativo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Subtotal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalCompra)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaCompra)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Editorial.Editorial1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Libro.Titulo)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Correlativo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cantidad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Subtotal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalCompra)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaCompra)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Editorial.Editorial1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Libro.Titulo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdCompra }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdCompra }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdCompra })
-        </td>
-    </tr>
-}
-
-</table>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table table-bordered table-responsive-lg" id="tablacompras" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Correlativo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cantidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subtotal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalCompra)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaCompra)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Editorial.Editorial1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Libro.Titulo)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Correlativo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subtotal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCompra)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaCompra)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Editorial.Editorial1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Libro.Titulo)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.IdCompra }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.IdCompra }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.IdCompra })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>

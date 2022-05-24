@@ -3,31 +3,46 @@
 @{
     ViewBag.Title = "Index";
 }
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        var table = $('#tablaautores').dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            }
+        });
+    });
+</script>
+<div class="container my-5" style="padding:16px;">
+    <h2>Autores</h2>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Autor1)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Autor1)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdAutor }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdAutor }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdAutor })
-        </td>
-    </tr>
-}
-
-</table>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table table-bordered table-responsive-lg" id="tablaautores" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Autor1)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Autor1)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.IdAutor }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.IdAutor }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.IdAutor })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
