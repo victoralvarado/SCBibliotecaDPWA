@@ -37,23 +37,36 @@ namespace SCBiblioteca.Controllers
         }
 
         // GET: Devoluciones/Create
-        public ActionResult Create()
+        public ActionResult Create(int id, int? idSolicitud, int cantidad)
         {
-            ViewBag.IdPrestamo = new SelectList(db.Prestamo, "IdPrestamo", "IdPrestamo");
-            return View();
+            ViewBag.IdPrestamo = id;
+            ViewBag.IdSol = idSolicitud;
+            ViewBag.Can = cantidad;
+            ModelDB m = new ModelDB();
+            if (m.DatosPrestamo(idSolicitud))
+            {
+                return View();
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Devoluciones/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdDevolucion,FechaDevolucion,Observaciones,IdPrestamo")] Devolucion devolucion)
+        public ActionResult Create(Devolucion devolucion, int idSolicitud, int cantidad, string comprobante)
         {
+
+            ModelDB m = new ModelDB();
             if (ModelState.IsValid)
             {
-                db.Devolucion.Add(devolucion);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (m.SumarStock(cantidad, m.ObtenerIdLibro(idSolicitud)) && m.PrestamoDes(devolucion.IdPrestamo) && m.ComprobanteDes(comprobante))
+                {
+                    db.Devolucion.Add(devolucion);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+
 
             ViewBag.IdPrestamo = new SelectList(db.Prestamo, "IdPrestamo", "IdPrestamo", devolucion.IdPrestamo);
             return View(devolucion);

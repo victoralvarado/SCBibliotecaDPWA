@@ -3,40 +3,41 @@
 @{
     ViewBag.Title = "Details";
 }
+<div class="container my-5" style="padding:16px;">
+    <h2>Details</h2>
 
-<h2>Details</h2>
+    <div>
+        <h4>Devolucion</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaDevolucion)
+            </dt>
 
-<div>
-    <h4>Devolucion</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaDevolucion)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FechaDevolucion)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FechaDevolucion)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Observaciones)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Observaciones)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Observaciones)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Observaciones)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Prestamo.IdPrestamo)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Prestamo.IdPrestamo)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Prestamo.IdPrestamo)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Prestamo.IdPrestamo)
-        </dd>
-
-    </dl>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.IdDevolucion }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IdDevolucion }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

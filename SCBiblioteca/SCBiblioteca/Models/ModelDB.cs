@@ -87,7 +87,6 @@ namespace SCBiblioteca.Models
         }
 
 
-
         //Actualizar Usuario Cliente 
         public bool ActualizarUsuarioCliente(Usuario u, Cliente c, int idCliente)
         {
@@ -316,7 +315,7 @@ namespace SCBiblioteca.Models
             Connection();
             con.Open();
             int cantidad = 0;
-            SqlCommand cmd = new SqlCommand("select case when SUM(CantidadLibros) IS NULL then 0 else SUM(CantidadLibros) end as CantidadLibros from Solicitud where IdUsuario=@idUsuario", con);
+            SqlCommand cmd = new SqlCommand("select case when SUM(Solicitud.CantidadLibros) IS NULL then 0 else SUM(Solicitud.CantidadLibros) end as CantidadLibros from Solicitud inner join Prestamo on Solicitud.IdSolicitud=Prestamo.IdSolicitud where Prestamo.Activo = 1 and Solicitud.IdUsuario=@idUsuario", con);
             cmd.CommandType = CommandType.Text;
 
             SqlParameter id = new SqlParameter("@idUsuario", SqlDbType.Int, int.MaxValue);
@@ -339,6 +338,7 @@ namespace SCBiblioteca.Models
             con.Close();
             return cantidad;
         }
+
 
         //Comparar contraseñas al editar un usuario
         public string CompararPassword(int idUsuario, string password)
@@ -375,6 +375,7 @@ namespace SCBiblioteca.Models
             return passw;
         }
 
+
         public string ObtenerCorreo(int idUsuario)
         {
             Connection();
@@ -405,6 +406,7 @@ namespace SCBiblioteca.Models
             con.Close();
             return correo;
         }
+
 
         public bool DatosPrestamo(int? idSolicitud)
         {
@@ -439,6 +441,7 @@ namespace SCBiblioteca.Models
             return false;
         }
 
+
         public bool CrearComprobante(Comprobante c)
         {
             Connection();
@@ -459,6 +462,98 @@ namespace SCBiblioteca.Models
                 return false;
         }
 
+
+        public int ObtenerIdLibro(int idSolicitud)
+        {
+            Connection();
+            con.Open();
+            int idLibro = 0;
+            SqlCommand cmd = new SqlCommand("select Libro.IdLibro from Libro inner join Solicitud on Solicitud.IdLibro=Libro.IdLibro inner join Prestamo on Prestamo.IdSolicitud = Solicitud.IdSolicitud  where Solicitud.IdSolicitud = @idSolicitud", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter id = new SqlParameter("@idSolicitud", SqlDbType.Int, int.MaxValue);
+            id.Value = idSolicitud;
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                while (rdr.Read())
+                {
+                    idLibro = (int)rdr["IdLibro"];
+                    return idLibro;
+                }
+            }
+            else
+            {
+                return idLibro;
+            }
+            con.Close();
+            return idLibro;
+        }
+
+
+        public bool PrestamoDes(int idPrestamo)
+        {
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("update Prestamo set Activo = 0 where IdPrestamo = @idPrestamo", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter id = new SqlParameter("@idPrestamo", SqlDbType.Int, int.MaxValue);
+            id.Value = idPrestamo;
+
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            int res = cmd.ExecuteNonQuery();
+            con.Close();
+            if (res >= 1)
+                return true;
+            else
+                return false;
+        }
+
+
+        public bool ComprobanteDes(string comprobante)
+        {
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("update Comprobante set Activo=0 where Comprobante=@comprobante", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter c = new SqlParameter("@comprobante", SqlDbType.NVarChar, int.MaxValue);
+            c.Value = comprobante;
+
+            cmd.Parameters.Add(c);
+            cmd.Prepare();
+            int res = cmd.ExecuteNonQuery();
+            con.Close();
+            if (res >= 1)
+                return true;
+            else
+                return false;
+        }
+
+
+        public bool SolicitudDes(int idSolicitud)
+        {
+            Connection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("update Solicitud set Activo = 0 where IdSolicitud = @idSolicitud", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter id = new SqlParameter("@idSolicitud", SqlDbType.NVarChar, int.MaxValue);
+            id.Value = idSolicitud;
+
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            int res = cmd.ExecuteNonQuery();
+            con.Close();
+            if (res >= 1)
+                return true;
+            else
+                return false;
+        }
     }
 }
 

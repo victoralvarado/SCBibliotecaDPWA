@@ -3,43 +3,58 @@
 @{
     ViewBag.Title = "Index";
 }
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        var table = $('#tabladevoluciones').dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            }
+        });
+    });
+</script>
+<div class="container my-5" style="padding:16px;">
+    <h2>Devoluciones</h2>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaDevolucion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Observaciones)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Prestamo.IdPrestamo)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaDevolucion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observaciones)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prestamo.IdPrestamo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdDevolucion }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdDevolucion }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdDevolucion })
-        </td>
-    </tr>
-}
-
-</table>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table table-bordered table-responsive-lg" id="tabladevoluciones" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaDevolucion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Observaciones)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Prestamo.IdPrestamo)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaDevolucion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observaciones)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prestamo.IdPrestamo)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.IdDevolucion }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.IdDevolucion }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.IdDevolucion })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
