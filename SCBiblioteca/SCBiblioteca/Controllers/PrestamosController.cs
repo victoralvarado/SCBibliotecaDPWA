@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using SCBiblioteca.Models;
 
 namespace SCBiblioteca.Controllers
@@ -72,7 +75,7 @@ namespace SCBiblioteca.Controllers
                 {
                     db.Prestamo.Add(prestamo);
                     db.SaveChanges();
-                    return RedirectToAction("Index", "Solicitudes");
+                    return RedirectToAction("Index", "Solicitudes", new { parametro = c.Comprobante1 });
                 }
 
             }

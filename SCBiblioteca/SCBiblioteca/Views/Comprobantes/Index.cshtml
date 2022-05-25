@@ -1,72 +1,86 @@
 ﻿@model IEnumerable<SCBiblioteca.Models.Comprobante>
 
-@{
-    ViewBag.Title = "Index";
-}
-<script>
-    $(document).ready(function () {
-        $.noConflict();
-        var table = $('#tablacomprobantes').dataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-            }
-        });
-    });
-</script>
-<div class="container my-5" style="padding:16px;">
-    <h2>Comprobantes</h2>
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table table-bordered table-responsive-lg" id="tablacomprobantes" width="100%">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Comprobante1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Activo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaCreacion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaVencimiento)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
+{
+    {
+        ViewBag.Title = "Index";
+    }
+    <script>
+        $(document).ready(function () {
+            $.noConflict();
+            var table = $('#tablacomprobantes').dataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+    <div class="container my-5" style="padding:16px;">
+        <h2>Comprobantes</h2>
+
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table table-bordered table-responsive-lg" id="tablacomprobantes" width="100%">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Comprobante1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Activo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaCreacion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaVencimiento)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.IdComprobante }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.IdComprobante }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.IdComprobante })
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Comprobante1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Activo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaCreacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaVencimiento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comprobante1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Activo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaCreacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaVencimiento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.IdComprobante }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.IdComprobante }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.IdComprobante }) |
+                            @Html.ActionLink("Generar Comprobante", "VerComprobanteUsuario", "Solicitudes", new { parametro = item.Comprobante1 }, new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = "NotFound";
+    }
+    @RenderPage("~/Views/Home/NotFound.cshtml");
+}
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>

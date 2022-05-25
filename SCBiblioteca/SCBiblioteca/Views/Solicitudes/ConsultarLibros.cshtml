@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "ConsultarLibros";
     ViewBag.ConsultarLibros = "active";
+    string ss = ViewBag.ES;
 }
 
 <script>
@@ -13,6 +14,7 @@
             }
         });
     });
+    console.log("estado s: ",@ss);
 </script>
 <style>
     .disabled {
@@ -24,6 +26,17 @@
 </style>
 <div class="container my-5" style="padding:16px;">
     <h2>Consultar Libros</h2>
+    @if (ss == "exito")
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Solicitud Realizada correctamente
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+
     <table class="display table table-bordered table-responsive-lg" id="tablelibros" width="100%">
         <thead>
             <tr>

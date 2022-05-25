@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using SCBiblioteca.Models;
 
 namespace SCBiblioteca.Controllers
@@ -15,15 +18,49 @@ namespace SCBiblioteca.Controllers
         private SCBibliotecaEntities db = new SCBibliotecaEntities();
 
         // GET: Solicitudes
-        public ActionResult Index()
+        public ActionResult Index(string parametro)
+
+        {
+            var solicitud = db.Solicitud.Include(s => s.Cliente).Include(s => s.Libro).Include(s => s.Usuario);
+            System.Web.HttpContext.Current.Session["ParametroReporteC"] = parametro;
+            return View(solicitud.ToList());
+        }
+
+        public ActionResult MisSolicitudes()
         {
             var solicitud = db.Solicitud.Include(s => s.Cliente).Include(s => s.Libro).Include(s => s.Usuario);
             return View(solicitud.ToList());
         }
 
-        public ActionResult ConsultarLibros()
+
+        public ActionResult VerComprobanteUsuario(string parametro)
+        {
+            var reporte = new ReportClass();
+            reporte.FileName = Server.MapPath("/Reports/ComprobanteUsuario.rpt");
+            //ESTABLECIENDO UN PARAMETRO AL REPORTE
+            reporte.SetParameterValue("ComprobanteCod", parametro);
+            //conexion para el reporte
+            var coninfo = new ConnectionInfo { ServerName = "DESKTOP-GN9NFD8", DatabaseName = "SCBiblioteca", IntegratedSecurity = true };
+            TableLogOnInfo logoninfo = new TableLogOnInfo();
+            Tables tables;
+            tables = reporte.Database.Tables;
+            foreach (Table item in tables)
+            {
+                logoninfo = item.LogOnInfo;
+                logoninfo.ConnectionInfo = coninfo;
+                item.ApplyLogOnInfo(logoninfo);
+            }
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Stream stream = reporte.ExportToStream(ExportFormatType.PortableDocFormat);
+            return new FileStreamResult(stream, "application/pdf");
+        }
+
+        public ActionResult ConsultarLibros(string es)
         {
             var libro = db.Libro.Include(l => l.Autor).Include(l => l.Categoria).Include(l => l.Especialidad);
+            ViewBag.ES = es;
             return View(libro.ToList());
         }
 
@@ -99,7 +136,9 @@ namespace SCBiblioteca.Controllers
                             solicitud.FechaSolicitud = thisDay;
                             db.Solicitud.Add(solicitud);
                             db.SaveChanges();
-                            return RedirectToAction("ConsultarLibros");
+                            ViewBag.EstadoSolicitud = "exito";
+                            return RedirectToAction("ConsultarLibros", new { es = ViewBag.EstadoSolicitud });
+
                         }
                         else
                         {
@@ -190,17 +229,34 @@ namespace SCBiblioteca.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            string sesion = (string)(System.Web.HttpContext.Current.Session["UserSesion"]);
             ModelDB m = new ModelDB();
             Solicitud solicitud = db.Solicitud.Find(id);
             if (m.SumarStock(solicitud.CantidadLibros, solicitud.IdLibro))
             {
                 db.Solicitud.Remove(solicitud);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (sesion.Equals("Usuario"))
+                {
+                    return RedirectToAction("MisSolicitudes");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+
             }
             else
             {
-                return RedirectToAction("Index");
+                if (sesion.Equals("Usuario"))
+                {
+                    return RedirectToAction("MisSolicitudes");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
         }

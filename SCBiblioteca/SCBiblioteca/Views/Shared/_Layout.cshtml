@@ -114,6 +114,7 @@
                                     @if (sesion.Equals("Usuario"))
                                     {
                                         <a href='@Url.Action("actualizarCuenta", "Home",new {correo=correo })' class="dropdown-item"><i class="fas fa-user-edit"></i> | Actualizar Datos</a>
+                                        <a href='@Url.Action("MisSolicitudes", "Solicitudes",new {correo=correo })' class="dropdown-item"><i class="fas fa-list"></i> | Mis Solicitudes</a>
                                     }
 
                                 </div>
