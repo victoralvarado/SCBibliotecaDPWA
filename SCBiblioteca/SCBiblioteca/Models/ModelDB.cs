@@ -125,7 +125,7 @@ namespace SCBiblioteca.Models
             cmd.Parameters.AddWithValue("@NombreCompleto", u.NombreCompleto);
             cmd.Parameters.AddWithValue("@FechaNacimiento", u.FechaNacimiento);
             cmd.Parameters.AddWithValue("@Direccion", u.Direccion);
-            cmd.Parameters.AddWithValue("@CorreoElectronico", u.NombreCompleto);
+            cmd.Parameters.AddWithValue("@CorreoElectronico", u.CorreoElectronico);
             cmd.Parameters.AddWithValue("@Usuario", u.Usuario1);
             cmd.Parameters.AddWithValue("@Password", Security.Encrypt(u.Password));
             cmd.Parameters.AddWithValue("@IdRol", Rol());

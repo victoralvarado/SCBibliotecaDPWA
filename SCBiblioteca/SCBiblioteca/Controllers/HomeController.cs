@@ -30,7 +30,12 @@ namespace SCBiblioteca.Controllers
             return RedirectToAction("Index");
         }
 
-
+        public ActionResult NotFound()
+        {
+            Response.Status = "404 Not Found";
+            Response.StatusCode = 404;
+            return View();
+        }
         public ActionResult IniciarSesion()
         {
             return View();

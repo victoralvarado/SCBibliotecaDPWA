@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<SCBiblioteca.Models.Solicitud>
 
 @{
-    ViewBag.Title = "Index";
-    ViewBag.PrestamosM = "active";
-    ViewBag.Solicitudes = "active";
-    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
-    String p = (String)(System.Web.HttpContext.Current.Session["ParametroReporteC"]);
+    ViewBag.Title = "MisSolicitudes";
+    ViewBag.MisSolicitudes = "active";
+    String idUsuario = (String)(System.Web.HttpContext.Current.Session["UserId"]);
 }
 <script>
     $(document).ready(function () {
         $.noConflict();
-        var table = $('#tablasolicitudes').dataTable({
+        var table = $('#tablamissolicitudes').dataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
             }
@@ -18,13 +16,8 @@
     });
 </script>
 <div class="container my-5" style="padding:16px;">
-    <h2>Solicitudes</h2>
-    @if (p != null)
-    {
-        @Html.ActionLink("Generar Comprobante " + p, "VerComprobanteUsuario", "Solicitudes", new { parametro = p }, new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
-    }
-
-    <table class="display table table-bordered table-responsive-lg" id="tablasolicitudes" width="100%">
+    <h2>MisSolicitudes</h2>
+    <table class="table table-bordered table-responsive-lg" id="tablamissolicitudes" width="100%">
         <thead>
             <tr>
                 <th>
@@ -39,13 +32,16 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
                 </th>
-                <th>Acción</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                if ((@Html.DisplayFor(modelItem => item.Activo)).ToString() == "1")
+
+                var activo = (@Html.DisplayFor(modelItem => item.Activo));
+                var idUs = (@Html.DisplayFor(modelItem => item.IdUsuario));
+                if (activo.ToString() != "0" && idUs.ToString() == idUsuario)
                 {
                     <tr>
                         <td>
@@ -54,7 +50,6 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.CantidadLibros)
                         </td>
-
                         <td>
                             @Html.DisplayFor(modelItem => item.Libro.Titulo)
                         </td>
@@ -62,22 +57,10 @@
                             @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
                         </td>
                         <td>
-                            @if (sesion.Equals("Administrador"))
-                            {
-                                @Html.ActionLink("Edit", "Edit", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success" });
-                                @Html.ActionLink("Details", "Details", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-warning" });
-
-                            }
-                            @if (sesion.Equals("Administrador") || sesion.Equals("Bibliotecario"))
-                            {
-                                @Html.ActionLink("Delete", "Delete", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-danger" })
-                                @Html.ActionLink("Prestar", "Create", "Prestamos", new { idSolicitud = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success " })
-
-                            }
+                            @Html.ActionLink("Delete", "Delete", new { id = item.IdSolicitud })
                         </td>
                     </tr>
                 }
-
             }
         </tbody>
     </table>
