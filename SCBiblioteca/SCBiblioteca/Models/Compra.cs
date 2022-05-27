@@ -27,7 +27,6 @@ namespace SCBiblioteca.Models
 
         [Display(Name = "Editorial")]
         public int IdEditorial { get; set; }
-
         public virtual Editorial Editorial { get; set; }
         public virtual Libro Libro { get; set; }
     }

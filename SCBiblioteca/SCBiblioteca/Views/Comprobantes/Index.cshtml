@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<SCBiblioteca.Models.Comprobante>
 
+@{
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
+}
 
-@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null && (sesion.Equals("Administrador") || sesion.Equals("Atencion") || sesion.Equals("Bibliotecario")))
 {
     {
         ViewBag.Title = "Index";
@@ -18,10 +21,12 @@
     </script>
     <div class="container my-5" style="padding:16px;">
         <h2>Comprobantes</h2>
-
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
+        @if (sesion.Equals("Administrador"))
+        {
+            <p>
+                @Html.ActionLink("Agregar Nuevo", "Create", null, new { style = "pointer-events: none" })
+            </p>
+        }
         <table class="table table-bordered table-responsive-lg" id="tablacomprobantes" width="100%">
             <thead>
                 <tr>
@@ -63,9 +68,12 @@
                             @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.IdComprobante }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.IdComprobante }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.IdComprobante }) |
+                            @Html.ActionLink("Editar", "Edit", new { id = item.IdComprobante }, new { @class = "btn btn-success my-1" })
+                            @Html.ActionLink("Datalles", "Details", new { id = item.IdComprobante }, new { @class = "btn btn-info my-1" })
+                            @if (sesion.Equals("Administrador"))
+                            {
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdComprobante }, new { @class = "btn btn-danger my-1" })
+                            }
                             @Html.ActionLink("Generar Comprobante", "VerComprobanteUsuario", "Solicitudes", new { parametro = item.Comprobante1 }, new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
                         </td>
                     </tr>

@@ -16,6 +16,7 @@ namespace SCBiblioteca.Models
         public int IdLibro { get; set; }
 
         [Required(ErrorMessage = "el {0} es requerido.")]
+        [MaxLength(100, ErrorMessage = "Máximo {1} caracteres permitidos")]
         public string Titulo { get; set; }
 
         [Required(ErrorMessage = "El {0} es requerido.")]

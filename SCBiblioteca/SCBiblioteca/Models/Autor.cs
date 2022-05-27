@@ -16,6 +16,7 @@ namespace SCBiblioteca.Models
 
         [Display(Name = "Autor")]
         [Required(ErrorMessage = "El {0} es requerido.")]
+        [MaxLength(50, ErrorMessage = "Máximo {1} caracteres permitidos")]
         public string Autor1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

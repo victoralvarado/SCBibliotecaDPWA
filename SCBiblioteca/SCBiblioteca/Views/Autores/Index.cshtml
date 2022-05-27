@@ -24,7 +24,7 @@
         <h2>Autores</h2>
 
         <p>
-            @Html.ActionLink("Create New", "Create")
+            @Html.ActionLink("Agregar Nuevo", "Create")
         </p>
         <table class="table table-bordered table-responsive-lg" id="tablaautores" width="100%">
             <thead>
@@ -32,7 +32,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Autor1)
                     </th>
-                    <th></th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,9 +43,9 @@
                             @Html.DisplayFor(modelItem => item.Autor1)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.IdAutor }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.IdAutor }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.IdAutor })
+                            @Html.ActionLink("Editar", "Edit", new { id = item.IdAutor }, new { @class = "btn btn-success my-1" })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.IdAutor }, new { @class = "btn btn-info my-1" })
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.IdAutor }, new { @class = "btn btn-danger my-1" })
                         </td>
                     </tr>
                 }

@@ -93,11 +93,26 @@ namespace SCBiblioteca.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdCompra,Correlativo,Cantidad,Subtotal,TotalCompra,FechaCompra,IdLibro,IdEditorial")] Compra compra)
         {
+            ModelDB m = new ModelDB();
             if (ModelState.IsValid)
             {
-                db.Entry(compra).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (compra.Cantidad <= m.StockLibros(compra.IdLibro))
+                {
+                    if (m.RestarStock(m.CompraCantidad(compra.IdCompra), compra.IdLibro))
+                    {
+                        if (m.SumarStock(compra.Cantidad, compra.IdLibro))
+                        {
+                            db.Entry(compra).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.CantidadLibro = "La cantidad de libros debe ser menor";
+                }
+
             }
             ViewBag.IdEditorial = new SelectList(db.Editorial, "IdEditorial", "Editorial1", compra.IdEditorial);
             ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo", compra.IdLibro);

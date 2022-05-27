@@ -1,66 +1,82 @@
 ﻿@model SCBiblioteca.Models.Solicitud
 
 @{
-    ViewBag.Title = "Details";
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
 }
 
-<h2>Details</h2>
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null && sesion.Equals("Administrador"))
+{
+    {
+        ViewBag.Title = "Details";
+    }
+    <div class="container my-5" style="padding:16px;">
+        <h2>Detalles</h2>
 
-<div>
-    <h4>Solicitud</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaSolicitud)
-        </dt>
+        <div>
+            <h4>Solicitud</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.FechaSolicitud)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FechaSolicitud)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.FechaSolicitud)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CantidadLibros)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CantidadLibros)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CantidadLibros)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.CantidadLibros)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Activo)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Activo)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Activo)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Activo)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Cliente.NombreCompleto)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cliente.NombreCompleto)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Cliente.NombreCompleto)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Cliente.NombreCompleto)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Libro.Titulo)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Libro.Titulo)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Libro.Titulo)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Libro.Titulo)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Usuario.NombreCompleto)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Usuario.NombreCompleto)
+                </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IdSolicitud }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Editar", "Edit", new { id = Model.IdSolicitud }) |
+            @Html.ActionLink("Regresar a la lista", "Index")
+        </p>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = "NotFound";
+    }
+    @RenderPage("~/Views/Home/NotFound.cshtml");
+}
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
