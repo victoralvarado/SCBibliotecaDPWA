@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using SCBiblioteca.Models;
 
 namespace SCBiblioteca.Controllers
@@ -33,6 +36,30 @@ namespace SCBiblioteca.Controllers
                 return HttpNotFound();
             }
             return View(editorial);
+        }
+
+        public ActionResult VerReporte()
+        {
+            var reporte = new ReportClass();
+            reporte.FileName = Server.MapPath("/Reports/ReporteProveedor.rpt");
+
+            //conexion para el reporte
+            var coninfo = new ConnectionInfo { ServerName = "DESKTOP-GN9NFD8", DatabaseName = "SCBiblioteca", IntegratedSecurity = true };
+            TableLogOnInfo logoninfo = new TableLogOnInfo();
+            Tables tables;
+            tables = reporte.Database.Tables;
+            foreach (Table item in tables)
+            {
+                logoninfo = item.LogOnInfo;
+                logoninfo.ConnectionInfo = coninfo;
+                item.ApplyLogOnInfo(logoninfo);
+            }
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Stream stream =
+            reporte.ExportToStream(ExportFormatType.PortableDocFormat);
+            return new FileStreamResult(stream, "application/pdf");
         }
 
         // GET: Editoriales/Create

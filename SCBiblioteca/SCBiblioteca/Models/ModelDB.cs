@@ -160,6 +160,35 @@ namespace SCBiblioteca.Models
             return Rol;
         }
 
+        public int CompraCantidad(int idCompra)
+        {
+            Connection();
+            con.Open();
+            int cantidad = 0;
+            SqlCommand cmd = new SqlCommand("select Cantidad from Compra where IdCompra = @idCompra", con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlParameter id = new SqlParameter("@idCompra", SqlDbType.Int, int.MaxValue);
+            id.Value = idCompra;
+            cmd.Parameters.Add(id);
+            cmd.Prepare();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                while (rdr.Read())
+                {
+                    cantidad = (int)rdr["Cantidad"];
+                    return cantidad;
+                }
+            }
+            else
+            {
+                return cantidad;
+            }
+            con.Close();
+            return cantidad;
+        }
+
 
         //Consultando el Id de Cliente Segun su Email
         public int IdCliente(string email)
