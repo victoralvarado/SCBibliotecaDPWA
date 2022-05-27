@@ -29,7 +29,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Prestamo prestamo = db.Prestamo.Find(id);
             if (prestamo == null)
@@ -42,17 +42,20 @@ namespace SCBiblioteca.Controllers
         // GET: Prestamos/Create
         public ActionResult Create(int? idSolicitud)
         {
-            ModelDB m = new ModelDB();
-            ViewBag.IdSolicitud = idSolicitud;
-            if (m.DatosPrestamo(idSolicitud))
+            if (idSolicitud == null)
             {
-                return View();
+                return HttpNotFound();
             }
             else
             {
-                return RedirectToAction("Index");
+                ModelDB m = new ModelDB();
+                ViewBag.IdSolicitud = idSolicitud;
+                if (m.DatosPrestamo(idSolicitud))
+                {
+                    return View();
+                }
             }
-
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -89,7 +92,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Prestamo prestamo = db.Prestamo.Find(id);
             if (prestamo == null)
@@ -120,7 +123,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Prestamo prestamo = db.Prestamo.Find(id);
             if (prestamo == null)

@@ -25,7 +25,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Autor autor = db.Autor.Find(id);
             if (autor == null)
@@ -61,7 +61,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Autor autor = db.Autor.Find(id);
             if (autor == null)
@@ -90,7 +90,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Autor autor = db.Autor.Find(id);
             if (autor == null)

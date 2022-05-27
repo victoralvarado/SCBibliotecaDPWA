@@ -18,10 +18,10 @@
         });
     </script>
     <div class="container my-5" style="padding:16px;">
-        <h2>Index</h2>
+        <h2>Usuarios</h2>
 
         <p>
-            @Html.ActionLink("Create New", "Create")
+            @Html.ActionLink("Agregar Nuevo", "Create")
         </p>
         @Html.ActionLink("Generar Reporte Empleados", "VerReporte", "Usuarios", new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
         <table class="table table-bordered table-responsive-lg" id="tablausuario" width="100%">
@@ -54,6 +54,7 @@
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.NombreCompleto)
+
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.FechaNacimiento)
@@ -71,9 +72,13 @@
                             @Html.DisplayFor(modelItem => item.Rol.Rol1)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.IdUsuario }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.IdUsuario }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.IdUsuario })
+                            @Html.ActionLink("Editar", "Edit", new { id = item.IdUsuario }, new { @class = "btn btn-success my-1" })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.IdUsuario }, new { @class = "btn btn-info my-1" })
+                            @if (@Html.DisplayFor(modelItem => item.IdUsuario).ToString() != "1" && @Html.DisplayFor(modelItem => item.Rol.Rol1).ToString() != "Usuario")
+                            {
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdUsuario }, new { @class = "btn btn-danger my-1" })
+                            }
+
                         </td>
                     </tr>
                 }

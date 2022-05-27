@@ -1,85 +1,97 @@
 ﻿@model IEnumerable<SCBiblioteca.Models.Solicitud>
 
 @{
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
+}
+
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null && (sesion.Equals("Administrador") || sesion.Equals("Bibliotecario")))
+{
     ViewBag.Title = "Index";
     ViewBag.PrestamosM = "active";
     ViewBag.Solicitudes = "active";
-    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
     String p = (String)(System.Web.HttpContext.Current.Session["ParametroReporteC"]);
-}
-<script>
-    $(document).ready(function () {
-        $.noConflict();
-        var table = $('#tablasolicitudes').dataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-            }
-        });
-    });
-</script>
-<div class="container my-5" style="padding:16px;">
-    <h2>Solicitudes</h2>
-    @if (p != null)
-    {
-        @Html.ActionLink("Generar Comprobante " + p, "VerComprobanteUsuario", "Solicitudes", new { parametro = p }, new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
-    }
 
-    <table class="display table table-bordered table-responsive-lg" id="tablasolicitudes" width="100%">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaSolicitud)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CantidadLibros)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Libro.Titulo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
-                </th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                if ((@Html.DisplayFor(modelItem => item.Activo)).ToString() == "1")
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaSolicitud)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CantidadLibros)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Libro.Titulo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
-                        </td>
-                        <td>
-                            @if (sesion.Equals("Administrador"))
-                            {
-                                @Html.ActionLink("Edit", "Edit", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success" });
-                                @Html.ActionLink("Details", "Details", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-warning" });
-
-                            }
-                            @if (sesion.Equals("Administrador") || sesion.Equals("Bibliotecario"))
-                            {
-                                @Html.ActionLink("Delete", "Delete", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-danger" })
-                                @Html.ActionLink("Prestar", "Create", "Prestamos", new { idSolicitud = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success " })
-
-                            }
-                        </td>
-                    </tr>
+    <script>
+        $(document).ready(function () {
+            $.noConflict();
+            var table = $('#tablasolicitudes').dataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 }
+            });
+        });
+    </script>
+    <div class="container my-5" style="padding:16px;">
+        <h2>Solicitudes</h2>
+        @if (p != null)
+        {
+            @Html.ActionLink("Generar Comprobante " + p, "VerComprobanteUsuario", "Solicitudes", new { parametro = p }, new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
+        }
 
-            }
-        </tbody>
-    </table>
-</div>
+        <table class="display table table-bordered table-responsive-lg" id="tablasolicitudes" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaSolicitud)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CantidadLibros)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Libro.Titulo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
+                    </th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if ((@Html.DisplayFor(modelItem => item.Activo)).ToString() == "1")
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaSolicitud)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CantidadLibros)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Libro.Titulo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
+                            </td>
+                            <td>
+                                @if (sesion.Equals("Administrador"))
+                                {
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success" });
+                                    @Html.ActionLink("Detalles", "Details", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-warning" });
+
+                                }
+                                @if (sesion.Equals("Administrador") || sesion.Equals("Bibliotecario"))
+                                {
+                                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-danger" })
+                                    @Html.ActionLink("Prestar", "Create", "Prestamos", new { idSolicitud = item.IdSolicitud }, new { @class = "my-1 p-2 btn btn-success " })
+
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = "NotFound";
+    }
+    @RenderPage("~/Views/Home/NotFound.cshtml");
+}
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>

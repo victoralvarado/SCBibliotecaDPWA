@@ -1,11 +1,12 @@
 ﻿@model SCBiblioteca.Models.Solicitud
+
 @if (@System.Web.HttpContext.Current.Session["UserSesion"] != null)
 {
     ViewBag.Title = "Delete";
     String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
 
     <div class="container my-5" style="padding:16px;">
-        <h2>Delete</h2>
+        <h2>Eliminar</h2>
         <div class="alert alert-danger" role="alert">
             <h3><strong>Está seguro que desea eliminar la Solicitud?</strong></h3>
         </div>
@@ -55,17 +56,18 @@
                     <input type="submit" value="Delete" class="btn btn-default" /> |
                     @if (sesion.Equals("Bibliotecario") || sesion.Equals("Administrador"))
                     {
-                        @Html.ActionLink("Back to List", "Index")
+                        @Html.ActionLink("Regresar a la lista", "Index")
                     }
                     else
                     {
-                        @Html.ActionLink("Back to List", "MisSolicitudes")
+                        @Html.ActionLink("Regresar a mis solicitudes", "MisSolicitudes")
                     }
 
                 </div>
             }
         </div>
     </div>
+}
 else
 {
     {

@@ -82,15 +82,19 @@ namespace SCBiblioteca.Controllers
 
         public ActionResult ActualizarCuenta(string correo)
         {
-            ModelDB m = new ModelDB();
-            if (m.MostrarDatosUsuario(correo))
+            if (correo == null)
             {
-                return View();
+                return HttpNotFound();
             }
             else
             {
-                return RedirectToAction("Index");
+                ModelDB m = new ModelDB();
+                if (m.MostrarDatosUsuario(correo))
+                {
+                    return View();
+                }
             }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

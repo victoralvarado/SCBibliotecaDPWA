@@ -26,7 +26,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Penalizacion penalizacion = db.Penalizacion.Find(id);
             if (penalizacion == null)
@@ -64,7 +64,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Penalizacion penalizacion = db.Penalizacion.Find(id);
             if (penalizacion == null)
@@ -95,7 +95,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Penalizacion penalizacion = db.Penalizacion.Find(id);
             if (penalizacion == null)

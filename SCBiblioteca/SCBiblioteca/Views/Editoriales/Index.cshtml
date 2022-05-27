@@ -21,7 +21,7 @@
         <h2>Editoriales</h2>
 
         <p>
-            @Html.ActionLink("Create New", "Create")
+            @Html.ActionLink("Agregar Nueva", "Create")
         </p>
         @Html.ActionLink("Generar Reporte Editoriales", "VerReporte", "Editoriales", new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
         <table class="table table-bordered table-responsive-lg" id="tablaeditoriales" width="100%">
@@ -36,7 +36,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Telefono)
                     </th>
-                    <th></th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,9 +53,9 @@
                             @Html.DisplayFor(modelItem => item.Telefono)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.IdEditorial }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.IdEditorial }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.IdEditorial })
+                            @Html.ActionLink("Editar", "Edit", new { id = item.IdEditorial }, new { @class = "btn btn-success my-1" })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.IdEditorial }, new { @class = "btn btn-info my-1" })
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.IdEditorial }, new { @class = "btn btn-danger my-1" })
                         </td>
                     </tr>
                 }

@@ -1,60 +1,74 @@
 ﻿@model IEnumerable<SCBiblioteca.Models.Penalizacion>
 
 @{
-    ViewBag.Title = "Index";
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
 }
-<script>
-    $(document).ready(function () {
-        $.noConflict();
-        var table = $('#tablapenalizaciones').dataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-            }
-        });
-    });
-</script>
-<div class="container my-5" style="padding:16px;">
-    <h2>Index</h2>
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="display table table-bordered table-responsive-lg" id="tablapenalizaciones" width="100%">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.MontoPenalizacion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MotivoPenalizacion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Devolucion.Observaciones)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null && sesion.Equals("Administrador"))
+{
+    {
+        ViewBag.Title = "Index";
+    }
+    <script>
+        $(document).ready(function () {
+            $.noConflict();
+            var table = $('#tablapenalizaciones').dataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+    <div class="container my-5" style="padding:16px;">
+        <h2>Penalizaciones</h2>
+
+        <p>
+            @Html.ActionLink("Crear Nueva", "Create")
+        </p>
+        <table class="display table table-bordered table-responsive-lg" id="tablapenalizaciones" width="100%">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MontoPenalizacion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MotivoPenalizacion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Devolucion.Observaciones)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.IdPenalizacion }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.IdPenalizacion }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.IdPenalizacion })
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MontoPenalizacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MotivoPenalizacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Devolucion.Observaciones)
+                    </th>
+                    <th>Acción</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MontoPenalizacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MotivoPenalizacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Devolucion.Observaciones)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.IdPenalizacion }, new { @class = "btn btn-success my-1" })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.IdPenalizacion }, new { @class = "btn btn-info my-1" })
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.IdPenalizacion }, new { @class = "btn btn-danger my-1" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = "NotFound";
+    }
+    @RenderPage("~/Views/Home/NotFound.cshtml");
+}
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>

@@ -1,48 +1,67 @@
 ﻿@model SCBiblioteca.Models.Penalizacion
 
 @{
-    ViewBag.Title = "Delete";
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Penalizacion</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.MontoPenalizacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MontoPenalizacion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MotivoPenalizacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MotivoPenalizacion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Devolucion.Observaciones)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Devolucion.Observaciones)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null && sesion.Equals("Administrador"))
+{
+    {
+        ViewBag.Title = "Delete";
     }
-</div>
+
+    <div class="container my-5" style="padding:16px;">
+        <h2>Eliminar</h2>
+        <div class="alert alert-danger" role="alert">
+            <h3><strong>¿Está seguro que desea eliminar el registro?</strong></h3>
+        </div>
+        <div>
+            <h4>Penalizacion</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.MontoPenalizacion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MontoPenalizacion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MotivoPenalizacion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MotivoPenalizacion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Devolucion.Observaciones)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Devolucion.Observaciones)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = "NotFound";
+    }
+    @RenderPage("~/Views/Home/NotFound.cshtml");
+}
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>

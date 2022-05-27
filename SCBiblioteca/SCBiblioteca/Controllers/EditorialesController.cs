@@ -28,7 +28,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Editorial editorial = db.Editorial.Find(id);
             if (editorial == null)
@@ -88,7 +88,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Editorial editorial = db.Editorial.Find(id);
             if (editorial == null)
@@ -117,7 +117,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Editorial editorial = db.Editorial.Find(id);
             if (editorial == null)
