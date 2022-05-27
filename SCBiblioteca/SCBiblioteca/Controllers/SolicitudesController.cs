@@ -69,7 +69,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Solicitud solicitud = db.Solicitud.Find(id);
             if (solicitud == null)
@@ -179,7 +179,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Solicitud solicitud = db.Solicitud.Find(id);
             if (solicitud == null)
@@ -214,7 +214,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Solicitud solicitud = db.Solicitud.Find(id);
             if (solicitud == null)

@@ -1,42 +1,57 @@
 ﻿@model SCBiblioteca.Models.Penalizacion
 
 @{
-    ViewBag.Title = "Details";
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
 }
 
-<h2>Details</h2>
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null && sesion.Equals("Administrador"))
+{
+    {
+        ViewBag.Title = "Details";
+    }
 
-<div>
-    <h4>Penalizacion</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.MontoPenalizacion)
-        </dt>
+    <h2>Detalles</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.MontoPenalizacion)
-        </dd>
+    <div>
+        <h4>Penalizacion</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MontoPenalizacion)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MotivoPenalizacion)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MontoPenalizacion)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.MotivoPenalizacion)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.MotivoPenalizacion)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Devolucion.Observaciones)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MotivoPenalizacion)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Devolucion.Observaciones)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Devolucion.Observaciones)
+            </dt>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IdPenalizacion }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+            <dd>
+                @Html.DisplayFor(model => model.Devolucion.Observaciones)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.IdPenalizacion }) |
+        @Html.ActionLink("Regresar a la lista", "Index")
+    </p>
+}
+else
+{
+    {
+        ViewBag.Title = "NotFound";
+    }
+    @RenderPage("~/Views/Home/NotFound.cshtml");
+}
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>

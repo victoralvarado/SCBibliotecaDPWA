@@ -1,68 +1,81 @@
 ﻿@model IEnumerable<SCBiblioteca.Models.Solicitud>
 
 @{
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
+}
+
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null && sesion.Equals("Usuario"))
+{
     ViewBag.Title = "MisSolicitudes";
     ViewBag.MisSolicitudes = "active";
     String idUsuario = (String)(System.Web.HttpContext.Current.Session["UserId"]);
-}
-<script>
-    $(document).ready(function () {
-        $.noConflict();
-        var table = $('#tablamissolicitudes').dataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-            }
-        });
-    });
-</script>
-<div class="container my-5" style="padding:16px;">
-    <h2>MisSolicitudes</h2>
-    <table class="table table-bordered table-responsive-lg" id="tablamissolicitudes" width="100%">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaSolicitud)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CantidadLibros)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Libro.Titulo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
 
-                var activo = (@Html.DisplayFor(modelItem => item.Activo));
-                var idUs = (@Html.DisplayFor(modelItem => item.IdUsuario));
-                if (activo.ToString() != "0" && idUs.ToString() == idUsuario)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaSolicitud)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CantidadLibros)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Libro.Titulo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.IdSolicitud })
-                        </td>
-                    </tr>
+    <script>
+        $(document).ready(function () {
+            $.noConflict();
+            var table = $('#tablamissolicitudes').dataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 }
-            }
-        </tbody>
-    </table>
-</div>
+            });
+        });
+    </script>
+    <div class="container my-5" style="padding:16px;">
+        <h2>Mis Solicitudes</h2>
+        <table class="table table-bordered table-responsive-lg" id="tablamissolicitudes" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaSolicitud)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CantidadLibros)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Libro.Titulo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Usuario.NombreCompleto)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    var activo = (@Html.DisplayFor(modelItem => item.Activo));
+                    var idUs = (@Html.DisplayFor(modelItem => item.IdUsuario));
+                    if (activo.ToString() != "0" && idUs.ToString() == idUsuario)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaSolicitud)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CantidadLibros)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Libro.Titulo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Usuario.NombreCompleto)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdSolicitud }, new { @class = "btn btn-danger my-1" })
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = "NotFound";
+    }
+    @RenderPage("~/Views/Home/NotFound.cshtml");
+}
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>

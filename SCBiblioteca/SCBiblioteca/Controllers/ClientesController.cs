@@ -25,7 +25,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Cliente cliente = db.Cliente.Find(id);
             if (cliente == null)
@@ -61,7 +61,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Cliente cliente = db.Cliente.Find(id);
             if (cliente == null)
@@ -90,7 +90,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Cliente cliente = db.Cliente.Find(id);
             if (cliente == null)

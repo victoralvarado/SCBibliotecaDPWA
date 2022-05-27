@@ -1,6 +1,11 @@
 ﻿@model SCBiblioteca.Models.Prestamo
 
 @{
+    String sesion = (String)(System.Web.HttpContext.Current.Session["UserSesion"]);
+}
+
+@if (@System.Web.HttpContext.Current.Session["UserSesion"] != null && (sesion.Equals("Administrador") || sesion.Equals("Bibliotecario")))
+{
     ViewBag.Title = "Create";
     string nombreCompleto = (string)(System.Web.HttpContext.Current.Session["PrestamoNombreCompleto"]);
     string cantidadLibros = (string)(System.Web.HttpContext.Current.Session["PrestamoCantidadLibros"]);
@@ -16,70 +21,79 @@
     }
 
     string comprobante = "U" + idUsuario + "L" + idLibro + "-S-" + ViewBag.IdSolicitud;
-}
 
-<div class="container my-5" style="padding:16px;">
-    <h2>Create</h2>
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+    <div class="container my-5" style="padding:16px;">
+        <h2>Create</h2>
 
-        <div class="form-horizontal">
-            <h4>Prestamo</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.FechaPrestamo, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.FechaPrestamo, new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
-                    @Html.ValidationMessageFor(model => model.FechaPrestamo, "", new { @class = "text-danger" })
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Prestamo</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaPrestamo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FechaPrestamo, new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
+                        @Html.ValidationMessageFor(model => model.FechaPrestamo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Fecha de Vencimiento</label>
+                    <div class="col-md-10">
+                        <input type="datetime-local" name="FechaVencimiento" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Activo, new { htmlAttributes = new { @class = "form-control", id = "activo", min = "0", max = "1" } })
+                        @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control", id = "cantidad" } })
+                        @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <input type="hidden" name="IdSolicitud" value='@ViewBag.IdSolicitud' />
+                <input type="hidden" name="IdUsuario" value='@idUsuario' />
+                <input type="hidden" name="Comprobante1" value='@comprobante' />
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-md-2">Fecha de Vencimiento</label>
-                <div class="col-md-10">
-                    <input type="datetime-local" name="FechaVencimiento" class="form-control" />
-                </div>
-            </div>
+        }
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Activo, new { htmlAttributes = new { @class = "form-control", id = "activo", min = "0", max = "1" } })
-                    @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control", id = "cantidad" } })
-                    @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <input type="hidden" name="IdSolicitud" value='@ViewBag.IdSolicitud' />
-            <input type="hidden" name="IdUsuario" value='@idUsuario' />
-            <input type="hidden" name="Comprobante1" value='@comprobante' />
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
+        <div>
+            @Html.ActionLink("Regresar a Soliciudes", "Index", "Solicitudes")
         </div>
-    }
 
-    <div>
-        @Html.ActionLink("Regresar a Soliciudes", "Index", "Solicitudes")
-    </div>
-
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script>
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script>
         $(document).ready(function () {
         $("#cantidad").val('@Html.Raw(cantidadLibros)');
             $("#activo").val("1");
 });
-    </script>
-</div>
+        </script>
+    </div>
+}
+else
+{
+    {
+        ViewBag.Title = "NotFound";
+    }
+    @RenderPage("~/Views/Home/NotFound.cshtml");
+}
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>

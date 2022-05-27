@@ -26,7 +26,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Devolucion devolucion = db.Devolucion.Find(id);
             if (devolucion == null)
@@ -77,7 +77,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Devolucion devolucion = db.Devolucion.Find(id);
             if (devolucion == null)
@@ -108,7 +108,7 @@ namespace SCBiblioteca.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             Devolucion devolucion = db.Devolucion.Find(id);
             if (devolucion == null)
