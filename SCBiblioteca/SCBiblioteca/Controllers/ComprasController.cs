@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using SCBiblioteca.Models;
 
 namespace SCBiblioteca.Controllers
@@ -42,6 +45,34 @@ namespace SCBiblioteca.Controllers
             ViewBag.IdEditorial = new SelectList(db.Editorial, "IdEditorial", "Editorial1");
             ViewBag.IdLibro = new SelectList(db.Libro, "IdLibro", "Titulo");
             return View();
+        }
+
+        public ActionResult VerReporteCompra(string fecha)
+        {
+            string[] f = fecha.Split('-');
+            string month = f[1];
+            string year = f[0];
+            var reporte = new ReportClass();
+            reporte.FileName = Server.MapPath("/Reports/ReporteCompraFecha.rpt");
+            //ESTABLECIENDO UN PARAMETRO AL REPORTE
+            reporte.SetParameterValue("month", month);
+            reporte.SetParameterValue("year", year);
+            //conexion para el reporte
+            var coninfo = new ConnectionInfo { ServerName = "DESKTOP-GN9NFD8", DatabaseName = "SCBiblioteca", IntegratedSecurity = true };
+            TableLogOnInfo logoninfo = new TableLogOnInfo();
+            Tables tables;
+            tables = reporte.Database.Tables;
+            foreach (Table item in tables)
+            {
+                logoninfo = item.LogOnInfo;
+                logoninfo.ConnectionInfo = coninfo;
+                item.ApplyLogOnInfo(logoninfo);
+            }
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Stream stream = reporte.ExportToStream(ExportFormatType.PortableDocFormat);
+            return new FileStreamResult(stream, "application/pdf");
         }
 
         // POST: Compras/Create

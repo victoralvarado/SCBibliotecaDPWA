@@ -24,6 +24,16 @@
         <p>
             @Html.ActionLink("Agregar Nueva", "Create")
         </p>
+        @using (Html.BeginForm("VerReporteCompra", "Compras", FormMethod.Get, htmlAttributes: new { id = "formcompras", target = "_blank" }))
+        {
+            <div class="form-group row border">
+                <label for="top" class="col-sm-3 col-form-label">Reporte de Compras por mes y Año</label>
+                <div class="col-sm-3">
+                    <input type="month" class="form-control" name="fecha" required>
+                </div>
+                <button type="submit" class="col-sm-2 btn btn-primary">Generar</button>
+            </div>
+        }
         <table class="table table-bordered table-responsive-lg" id="tablacompras" width="100%">
             <thead>
                 <tr>
