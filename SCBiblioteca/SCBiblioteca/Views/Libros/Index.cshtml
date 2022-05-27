@@ -26,6 +26,18 @@
             @Html.ActionLink("Agregar Nuevo", "Create")
         </p>
         @Html.ActionLink("Generar Reporte Libros", "VerReporte", "Libros", new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
+        @Html.ActionLink("Generar Reporte Libros por Editorial", "VerReporteLE", "Libros", new { @class = "my-1 p-2 btn btn-primary ", target = "_blank" })
+        @using (Html.BeginForm("VerReporteLTop", "Libros", FormMethod.Get, htmlAttributes: new { id = "formTop", target = "_blank" }))
+        {
+            <div class="form-group row border">
+                <label for="top" class="col-sm-2 col-form-label">Reporte de los ultimos</label>
+                <div class="col-sm-1">
+                    <input type="number" class="form-control" name="top" min="1" value="1" id="top">
+                </div>
+                <label for="inputEmail3" class="col-sm-2 col-form-label">libros agregados</label>
+                <button type="submit" class="col-sm-1 btn btn-primary">Generar</button>
+            </div>
+        }
         <table class="display table table-bordered table-responsive-lg" id="tablalibros" width="100%">
             <thead>
                 <tr>
